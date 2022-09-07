@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import IngredientList from './IngredientList';
 
 export default function Converter() {
@@ -38,6 +38,10 @@ export default function Converter() {
 
     const { amount, startUnit, ingredient, endUnit } = calcState;
 
+    // const handleChange = event => {
+    //     setIngredientSearch(event.target.value);
+    // };
+
     // Array of ingredients and their density's from the IngredientList component
     let infoList = IngredientList();
 
@@ -55,6 +59,25 @@ export default function Converter() {
             ])
         }
     };
+
+    console.log(ingredientInfoArray[0][0])
+
+    const [ingredientSearch, setIngredientSearch] = useState([]);
+
+    useEffect(() => {
+        // If the search field is empty, set the search array to empty to display no items
+        if (ingredient === "") {
+            setIngredientSearch([]);
+            return;
+        } else {
+            /* If there is something in the search field, filter the names in the ingredient array by
+            whats typed inside of the search field, set both values to lowercase to avoid matching conflicts */
+            const results = ingredientInfoArray.filter(ingredientItem =>
+                ingredientItem[0].toLowerCase().includes(ingredient.toLowerCase())
+            );
+            setIngredientSearch(results);
+        }
+    }, [ingredient]);
 
     console.log(ingredientInfoArray);
 
@@ -132,11 +155,14 @@ export default function Converter() {
     console.log(unitToWeight(1, cupGramCalc, 1.38));
     console.log(weightToWeight(testMeasure, gToKg));
 
+    console.log(calcState)
+
     /* 
         {ingredientInfoArray.map((ingredient) => (
         <option key={ingredient[0]} value={ingredient[0]}>{ingredient[0]}</option>
         ))}
     */
+   
 
     return (
         <>
@@ -151,12 +177,22 @@ export default function Converter() {
                                 id='amount'
                                 type='text'
                                 name='amount'
-                                defaultValue={amount}
+                                value={amount}
+                                onChange={(e) =>
+                                    setCalcState({ ...calcState, amount: e.target.value })
+                                }
                             />
                         </div>
                         <div>
                             <label htmlFor='startUnit'>Unit:</label>
-                            <select id="startUnit" name="startUnit" defaultValue={startUnit}>
+                            <select
+                            id="startUnit"
+                            name="startUnit"
+                            value={startUnit}
+                            onChange={(e) =>
+                                setCalcState({ ...calcState, startUnit: e.target.value })
+                            }
+                            >
                             {unitState === "volume" ?
                             volumeList.map((volume) => (
                                 <option key={volume} value={volume}>{volume}</option>
@@ -172,8 +208,36 @@ export default function Converter() {
                             <input
                                 id='ingredient'
                                 name='ingredient'
-                                defaultValue={ingredient}
+                                value={ingredient}
+                                onChange={(e) =>
+                                    setCalcState({ ...calcState, ingredient: e.target.value })
+                                }
                             />
+                            <ul>
+                                {ingredientSearch.map(item => (
+                                <li>{item[0]}</li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div>
+                            <label htmlFor='endUnit'>Unit:</label>
+                            <select
+                            id="endUnit"
+                            name="endUnit"
+                            value={endUnit}
+                            onChange={(e) =>
+                                setCalcState({ ...calcState, endUnit: e.target.value })
+                            }
+                            >
+                            {unitState === "volume" ?
+                            weightList.map((weight) => (
+                                <option key={weight} value={weight}>{weight}</option>
+                            )) :
+                            volumeList.map((volume) => (
+                                <option key={volume} value={volume}>{volume}</option>
+                            ))
+                            }
+                            </select>
                         </div>
                         {errorMessage && (
                             <div>
@@ -181,7 +245,7 @@ export default function Converter() {
                             </div>
                         )}
                         <div className="submitContainer">
-                            <button type="submit" className='submitButton'>Send</button>
+                            <button type="submit" className='submitButton'>Convert</button>
                         </div>
                     </form>
                 </section>

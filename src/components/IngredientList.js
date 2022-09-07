@@ -4,7 +4,7 @@ export default function List() {
 
     const list = [
         {name: "Bone and meat meal, loose", density: 0.72},
-        {name: "Bone meal, loose", density: 0.80-0.96},
+        {name: "Bone meal, loose", density: 0.80},
         {name: "Cow intestine, boiled", density: 0.58},
         {name: "Cow, lean, no bone, raw", density: 0.96},
         {name: "Cow, intestine, raw", density: 0.93},
