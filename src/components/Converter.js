@@ -9,8 +9,8 @@ export default function Converter() {
         "Gallon (US)",
         "Quart (US)",
         "Pint (US)",
-        "Fluid Ounce (US)",
         "Cups (US)",
+        "Fluid Ounce (US)",
         "Tablespoons (US)",
         "Teaspoons (US)",
     ];
@@ -22,6 +22,22 @@ export default function Converter() {
         "Ounce (US)",
     ];
 
+    const calcList = {
+        Liter: 1000,
+        Milliliter: 1,
+        GallonUS: 3785.41178,
+        QuartUS: 946.352946,
+        PintUS: 473.176473,
+        CupsUS: 236.588236,
+        FluidOunceUS: 29.57353,
+        TablespoonsUS: 14.786765,
+        TeaspoonsUS: 4.928922,
+        Gram: 1,
+        Kilogram: 0.001,
+        PoundUS: 0.002205,
+        OunceUS: 0.035274,
+    }
+
     // Assigning the initial calcState to default values, these will change depending on user input for the form
     const [calcState, setCalcState] = useState({
         amount: 1,
@@ -31,7 +47,10 @@ export default function Converter() {
     });
 
     // Assigning the initial unitState to volume, will change depending on if user wants volume>weight or weight>volume
-    const [unitState, setUnitState] = useState("volume")
+    const [unitState, setUnitState] = useState("volume");
+
+    // Assigning the initial resultState to volume, will change to a value once a conversion is done
+    const [resultState, setResultState] = useState();
 
     // State for error message which will display on the form if user doesn't use correct input, no value by default
     const [errorMessage, setErrorMessage] = useState("");
@@ -157,11 +176,80 @@ export default function Converter() {
 
     console.log(calcState)
 
-    /* 
-        {ingredientInfoArray.map((ingredient) => (
-        <option key={ingredient[0]} value={ingredient[0]}>{ingredient[0]}</option>
-        ))}
-    */
+    const handleSubmit = (e) => {
+        // Preventing the page from refreshing which is the default behaviour of form submit
+        e.preventDefault();
+
+        let convertUnit;
+        let convertStartUnit;
+        let convertEndUnit;
+        let convertCalc;
+        let convertCalcWeight;
+        let convertDensity;
+        let conversionResult;
+        let conversionRoundedResult;
+        let converstionNewWeightResult;
+        console.log("INGREDIENT SEARCH IS =========")
+        console.log(ingredientSearch)
+
+        if (!ingredientSearch[0]) {
+            console.log("NOTHING HERE")
+            setErrorMessage("Please enter an ingredient");
+        }  
+        else if (!ingredientSearch[0][0] || ingredientSearch[0][0].toLowerCase() !== ingredient.toLowerCase()) {
+            console.log("NOTHING HERE 2")
+            console.log(ingredient)
+            setErrorMessage("Please select an ingredient from the list");
+        }
+        else if (unitState === "volume") {
+            // Grabs amount of what user wants to convert entered from amount field
+            convertUnit = calcState.amount;
+            // Grabs density value of the ingredient the user is attempting to convert
+            convertDensity = ingredientSearch[0][1];
+            // Grabs the starting unit (ex: Cups (US)) and converts it to name style of calcList object names (ex: CupsUS)
+            convertStartUnit = calcState.startUnit.replaceAll(/[ ()]/g, "");
+            // Grabs the value of the related start unit (ex: CupsUS has value of 236.588236)
+            convertCalc = calcList[convertStartUnit];
+
+
+            console.log("CONVERT THING IS")
+            console.log(convertUnit)
+            console.log(convertDensity)
+            console.log(convertCalc)
+
+            conversionResult = unitToWeight(convertUnit, convertCalc, convertDensity);
+
+            if (calcState.endUnit === "Grams") {
+                conversionRoundedResult = conversionResult.toFixed(2);
+                console.log(conversionResult);
+                console.log(conversionRoundedResult);
+    
+                setResultState(conversionRoundedResult);
+
+            } else {
+
+                convertEndUnit = calcState.endUnit.replaceAll(/[ ()]/g, "");
+                convertCalcWeight = calcList[convertEndUnit];
+
+                console.log("CONVERT END UNIT IS !!!!!!!!!");
+                console.log(convertEndUnit);
+                console.log(convertCalcWeight);
+
+                converstionNewWeightResult = weightToWeight(conversionResult, convertCalcWeight);
+                conversionRoundedResult = converstionNewWeightResult.toFixed(2);
+
+                console.log("NEW WEIGHT IS !!!!!!!!!");
+                console.log(converstionNewWeightResult);
+                console.log(conversionRoundedResult);
+    
+                setResultState(conversionRoundedResult);
+            }
+        }
+    }
+
+    console.log("SEARCH STATE")
+    //console.log(ingredientSearch[0][0])
+    console.log(calcList['Liter'])
    
 
     return (
@@ -170,7 +258,7 @@ export default function Converter() {
 
                 <section className="contactContainer mt-md-5 mt-3">
                     <h1 className='text-center formTitle'>Fun title</h1>
-                    <form id='conversion-form'>
+                    <form id='conversion-form' onSubmit={handleSubmit}>
                         <div>
                             <label htmlFor='amount'>Amount:</label>
                             <input
