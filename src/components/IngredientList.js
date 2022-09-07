@@ -26,7 +26,6 @@ export default function List() {
         {name: "Sucrose Octoacetate", density: 0.53},
         {name: "Sugar", density: 0.95},
         {name: "Sugar, dextrose", density: 0.62},
-        {name: "Sugar, dextrose", density: 0.58},
         {name: "Sugar, granulated", density: 0.7},
         {name: "Sugar, powdered", density: 0.56},
         {name: "Sugar, white", density: 0.88},
