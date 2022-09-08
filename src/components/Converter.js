@@ -435,7 +435,11 @@ export default function Converter() {
                             />
                             <ul>
                                 {ingredientSearch.map(item => (
-                                <li>{item[0]}</li>
+                                <li
+                                onClick={ () => {setCalcState({ ...calcState, ingredient: item[0] })}}
+                                >
+                                    {item[0]}
+                                </li>
                                 ))}
                             </ul>
                         </div>
