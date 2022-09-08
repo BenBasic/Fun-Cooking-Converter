@@ -22,6 +22,7 @@ export default function Converter() {
         "Ounce (US)",
     ];
 
+    // Calculation to multiply by for gram related conversions (volume to gram, or gram to kilogram)
     const calcList = {
         Liter: 1000,
         Milliliter: 1,
@@ -36,6 +37,22 @@ export default function Converter() {
         Kilogram: 0.001,
         PoundUS: 0.002205,
         OunceUS: 0.035274,
+    }
+
+    const calcListWeight = {
+        Liter: 0.001,
+        Milliliter: 1,
+        GallonUS: 0.000264,
+        QuartUS: 0.001057,
+        PintUS: 0.002113,
+        CupsUS: 0.004227,
+        FluidOunceUS: 0.033814,
+        TablespoonsUS: 0.067628,
+        TeaspoonsUS: 0.202884,
+        Gram: 1,
+        Kilogram: 1000,
+        PoundUS: 453.59237,
+        OunceUS: 28.349523,
     }
 
     // Assigning the initial calcState to default values, these will change depending on user input for the form
@@ -155,6 +172,15 @@ export default function Converter() {
     // ounces = grams × 0.035274
     const gToOz = 0.035274;
 
+    // Volume = Mass ÷ Density
+    // (5grams ÷ 0.7) = 7.142857 ml
+    // Example: Millileters = amount of grams ÷ ingredient density
+
+    function unitToVolume(unit, density) {
+
+        let result = unit / density;
+        return result;
+    };
 
 
     function unitToWeight(unit, calculation, density) {
@@ -189,6 +215,7 @@ export default function Converter() {
         let conversionResult;
         let conversionRoundedResult;
         let converstionNewWeightResult;
+        let converstionNewWeightResultAgain;
         console.log("INGREDIENT SEARCH IS =========")
         console.log(ingredientSearch)
 
@@ -245,11 +272,104 @@ export default function Converter() {
                 setResultState(conversionRoundedResult);
             }
         }
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+
+        else if (unitState === "weight") {
+            // Grabs amount of what user wants to convert entered from amount field
+            convertUnit = calcState.amount;
+            // Grabs density value of the ingredient the user is attempting to convert
+            convertDensity = ingredientSearch[0][1];
+            // Grabs the starting unit (ex: Cups (US)) and converts it to name style of calcList object names (ex: CupsUS)
+            convertStartUnit = calcState.startUnit.replaceAll(/[ ()]/g, "");
+            // Grabs the ending unit (ex: Pound (US)) and converts it to name style of calcList object names (ex: CupsUS)
+            convertEndUnit = calcState.endUnit.replaceAll(/[ ()]/g, "");
+            // Grabs the value of the related start unit (ex: CupsUS has value of 236.588236)
+            //convertCalc = calcListWeight[convertStartUnit];
+
+
+            // NEEDS TO CONVERT WEIGHT TO GRAM NO MATTER WHAT THEN DO GRAM AMOUNT / INGREDIENT DENSITY
+            // THEN CONVERT FROM ML AMOUNT TO INTENDED VOLUME AMOUNT IF ITS BIGGER THAN ML
+
+
+            console.log("CONVERT THING IS")
+            console.log(convertUnit)
+            console.log(convertDensity)
+            //console.log(convertCalc)
+
+            //conversionResult = unitToWeight(convertUnit, convertCalc, convertDensity);
+
+            if (calcState.startUnit === "Gram") {
+
+                // This converts the grams into ml
+                conversionResult = unitToVolume(convertUnit, convertDensity);
+
+                if (calcState.endUnit === "Milliliter") {
+
+                    conversionRoundedResult = conversionResult.toFixed(2);
+                    console.log(conversionResult);
+                    console.log(conversionRoundedResult);
+        
+                    setResultState(conversionRoundedResult);
+                } else {
+                    console.log("INSIDE GRAM ELSE STATEMENT");
+                    
+                    // Grabs the value of the related end unit (ex: CupsUS has value of 236.588236)
+                    convertCalc = calcListWeight[convertEndUnit];
+                    // Takes the Ml that was converted and multiplies that to convert Ml to other volumes
+                    converstionNewWeightResult = weightToWeight(conversionResult, convertCalc);
+                    // Rounds the result
+                    conversionRoundedResult = converstionNewWeightResult.toFixed(2);
+                    console.log(converstionNewWeightResult);
+                    console.log(conversionRoundedResult);
+
+                    setResultState(conversionRoundedResult);
+                }
+
+            } else {
+
+                // Grabs the value of the related end unit (ex: CupsUS has value of 236.588236)
+                convertCalcWeight = calcListWeight[convertStartUnit];
+                // Multiplies original weight value (example: Pounds) into its value in grams
+                converstionNewWeightResult = weightToWeight(convertUnit, convertCalcWeight);
+                // Devides the new amount of grams by the ingredient density, resulting in converted volume
+                conversionResult = unitToVolume(converstionNewWeightResult, convertDensity);
+
+                if (calcState.endUnit === "Milliliter") {
+                    conversionRoundedResult = conversionResult.toFixed(2);
+
+                    console.log("NEW VOLUME IS !!!!!!!!!");
+                    console.log(converstionNewWeightResult);
+                    console.log(conversionRoundedResult);
+        
+                    setResultState(conversionRoundedResult);
+                } else {
+                    convertCalc = calcListWeight[convertEndUnit];
+                    converstionNewWeightResultAgain = weightToWeight(conversionResult, convertCalc);
+
+                    conversionRoundedResult = converstionNewWeightResultAgain.toFixed(2);
+
+                    console.log("NEW VOLUME IS !!!!!!!!!");
+                    console.log(converstionNewWeightResultAgain);
+                    console.log(conversionRoundedResult);
+        
+                    setResultState(conversionRoundedResult);
+                }
+            }
+        }
     }
 
     console.log("SEARCH STATE")
     //console.log(ingredientSearch[0][0])
     console.log(calcList['Liter'])
+
+    function changeMode() {
+        const beforeUnit = document.querySelector('#startUnit');
+        const afterUnit = document.querySelector('#endUnit');
+        setCalcState({ ...calcState, startUnit: afterUnit.value, endUnit: beforeUnit.value, });
+        console.log("UNIT SWAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPPPPP");
+        console.log(calcState);
+    }
    
 
     return (
@@ -258,6 +378,18 @@ export default function Converter() {
 
                 <section className="contactContainer mt-md-5 mt-3">
                     <h1 className='text-center formTitle'>Fun title</h1>
+
+                    <button onClick={ unitState === "volume" ?
+                    () => {
+                        setUnitState("weight");
+                        changeMode();
+                    } :
+                    () => {
+                        setUnitState("volume");
+                        changeMode();
+                    }
+                    }>Change from {unitState}</button>
+
                     <form id='conversion-form' onSubmit={handleSubmit}>
                         <div>
                             <label htmlFor='amount'>Amount:</label>
@@ -337,6 +469,7 @@ export default function Converter() {
                         </div>
                     </form>
                 </section>
+                <h1>{resultState}</h1>
             </div>
 
 
