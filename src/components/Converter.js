@@ -219,6 +219,33 @@ export default function Converter() {
         console.log("INGREDIENT SEARCH IS =========")
         console.log(ingredientSearch)
 
+        // Function which will round the final result
+        function roundResult(sourceResult) {
+            // Result is rounded, will only show up to the 2nd decimal point (ex: 23.63)
+            conversionRoundedResult = sourceResult.toFixed(2);
+            // Sets the result state to the rounded result, allowing it to display on the page
+            setResultState(conversionRoundedResult);
+            console.log("!!!!!!!!!!!!!!!!!!!!FUNCTION ROUND RESULT HAS OCCURED!!!!!!!!!!!!!!!!!!!!!!!")
+        }
+
+        // Function which will first convert one unit to another and then round the final result
+        function convertThenRoundResult(list, listItem, sourceResult) {
+            // Grabs the type of calcList and then finds the property value of the listItem
+            convertCalcWeight = list[listItem];
+
+            // Source result is then converted to the new unit amount by referencing the value from convertCalcWeight
+            converstionNewWeightResult = weightToWeight(sourceResult, convertCalcWeight);
+            // Result is then rounded, will only show up to the 2nd decimal point (ex: 23.63)
+            conversionRoundedResult = converstionNewWeightResult.toFixed(2);
+
+            console.log("NEW WEIGHT IS !!!!!!!!!");
+            console.log(converstionNewWeightResult);
+            console.log(conversionRoundedResult);
+            // Sets the result state to the rounded result, allowing it to display on the page
+            setResultState(conversionRoundedResult);
+            console.log("+++++++++++++++++++++++++FUNCTION convertThenRoundResult HAS OCCURED+++++++++++++++++++++++++")
+        }
+
         if (!ingredientSearch[0]) {
             console.log("NOTHING HERE")
             setErrorMessage("Please enter an ingredient");
@@ -247,29 +274,14 @@ export default function Converter() {
             conversionResult = unitToWeight(convertUnit, convertCalc, convertDensity);
 
             if (calcState.endUnit === "Grams") {
-                conversionRoundedResult = conversionResult.toFixed(2);
-                console.log(conversionResult);
-                console.log(conversionRoundedResult);
-    
-                setResultState(conversionRoundedResult);
+                // Calls the roundResult function, rounds result and sets resultState
+                roundResult(conversionResult);
 
             } else {
-
+                // Grabs the ending unit (ex: Pound (US)) and converts it to name style of calcList object names (ex: CupsUS)
                 convertEndUnit = calcState.endUnit.replaceAll(/[ ()]/g, "");
-                convertCalcWeight = calcList[convertEndUnit];
-
-                console.log("CONVERT END UNIT IS !!!!!!!!!");
-                console.log(convertEndUnit);
-                console.log(convertCalcWeight);
-
-                converstionNewWeightResult = weightToWeight(conversionResult, convertCalcWeight);
-                conversionRoundedResult = converstionNewWeightResult.toFixed(2);
-
-                console.log("NEW WEIGHT IS !!!!!!!!!");
-                console.log(converstionNewWeightResult);
-                console.log(conversionRoundedResult);
-    
-                setResultState(conversionRoundedResult);
+                // Calls the convertThenRoundResult function, converts to new unit then rounds result and sets resultState
+                convertThenRoundResult(calcList, convertEndUnit, conversionResult)
             }
         }
 
@@ -284,20 +296,11 @@ export default function Converter() {
             convertStartUnit = calcState.startUnit.replaceAll(/[ ()]/g, "");
             // Grabs the ending unit (ex: Pound (US)) and converts it to name style of calcList object names (ex: CupsUS)
             convertEndUnit = calcState.endUnit.replaceAll(/[ ()]/g, "");
-            // Grabs the value of the related start unit (ex: CupsUS has value of 236.588236)
-            //convertCalc = calcListWeight[convertStartUnit];
-
-
-            // NEEDS TO CONVERT WEIGHT TO GRAM NO MATTER WHAT THEN DO GRAM AMOUNT / INGREDIENT DENSITY
-            // THEN CONVERT FROM ML AMOUNT TO INTENDED VOLUME AMOUNT IF ITS BIGGER THAN ML
 
 
             console.log("CONVERT THING IS")
             console.log(convertUnit)
             console.log(convertDensity)
-            //console.log(convertCalc)
-
-            //conversionResult = unitToWeight(convertUnit, convertCalc, convertDensity);
 
             if (calcState.startUnit === "Gram") {
 
@@ -305,25 +308,13 @@ export default function Converter() {
                 conversionResult = unitToVolume(convertUnit, convertDensity);
 
                 if (calcState.endUnit === "Milliliter") {
+                    // Calls the roundResult function, rounds result and sets resultState
+                    roundResult(conversionResult);
 
-                    conversionRoundedResult = conversionResult.toFixed(2);
-                    console.log(conversionResult);
-                    console.log(conversionRoundedResult);
-        
-                    setResultState(conversionRoundedResult);
                 } else {
-                    console.log("INSIDE GRAM ELSE STATEMENT");
+                    // Calls the convertThenRoundResult function, converts to new unit then rounds result and sets resultState
+                    convertThenRoundResult(calcListWeight, convertEndUnit, conversionResult)
                     
-                    // Grabs the value of the related end unit (ex: CupsUS has value of 236.588236)
-                    convertCalc = calcListWeight[convertEndUnit];
-                    // Takes the Ml that was converted and multiplies that to convert Ml to other volumes
-                    converstionNewWeightResult = weightToWeight(conversionResult, convertCalc);
-                    // Rounds the result
-                    conversionRoundedResult = converstionNewWeightResult.toFixed(2);
-                    console.log(converstionNewWeightResult);
-                    console.log(conversionRoundedResult);
-
-                    setResultState(conversionRoundedResult);
                 }
 
             } else {
@@ -336,28 +327,18 @@ export default function Converter() {
                 conversionResult = unitToVolume(converstionNewWeightResult, convertDensity);
 
                 if (calcState.endUnit === "Milliliter") {
-                    conversionRoundedResult = conversionResult.toFixed(2);
 
-                    console.log("NEW VOLUME IS !!!!!!!!!");
-                    console.log(converstionNewWeightResult);
-                    console.log(conversionRoundedResult);
-        
-                    setResultState(conversionRoundedResult);
+                    // Calls the roundResult function, rounds result and sets resultState
+                    roundResult(conversionResult);
+
                 } else {
-                    convertCalc = calcListWeight[convertEndUnit];
-                    converstionNewWeightResultAgain = weightToWeight(conversionResult, convertCalc);
+                    // Calls the convertThenRoundResult function, converts to new unit then rounds result and sets resultState
+                    convertThenRoundResult(calcListWeight, convertEndUnit, conversionResult)
 
-                    conversionRoundedResult = converstionNewWeightResultAgain.toFixed(2);
-
-                    console.log("NEW VOLUME IS !!!!!!!!!");
-                    console.log(converstionNewWeightResultAgain);
-                    console.log(conversionRoundedResult);
-        
-                    setResultState(conversionRoundedResult);
                 }
             }
         }
-    }
+    };
 
     console.log("SEARCH STATE")
     //console.log(ingredientSearch[0][0])
