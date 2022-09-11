@@ -351,16 +351,21 @@ export default function Converter() {
         console.log("UNIT SWAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPPPPP");
         console.log(calcState);
     }
+
+    console.log("CHECKING FOR CLASS REF")
+    console.log(ingredientSearch)
    
 
     return (
         <>
             <div className={`convertContainer`}>
 
-                <section className="contactContainer mt-md-5 mt-3">
-                    <h1 className='text-center formTitle'>Fun title</h1>
+                <section className="formContainer">
+                    <h1 className='formTitle'>Fun title</h1>
 
-                    <button onClick={ unitState === "volume" ?
+                    <button
+                    className="switchButton"
+                    onClick={ unitState === "volume" ?
                     () => {
                         setUnitState("weight");
                         changeMode();
@@ -414,9 +419,14 @@ export default function Converter() {
                                     setCalcState({ ...calcState, ingredient: e.target.value })
                                 }
                             />
-                            <ul>
+                            <ul className={ ingredientSearch.length === 0 ? "ingredientDropdown hiddenElement" :
+                            ingredient === ingredientSearch[0][0] || ingredient.length > ingredientSearch[0][0].length ?
+                            "ingredientDropdown hiddenElement" :
+                            "ingredientDropdown"}
+                            >
                                 {ingredientSearch.map(item => (
                                 <li
+                                className="ingredientItem"
                                 onClick={ () => {setCalcState({ ...calcState, ingredient: item[0] })}}
                                 >
                                     {item[0]}

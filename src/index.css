@@ -13,3 +13,41 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.formContainer {
+	margin: 2rem auto;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	max-width: 425px;
+	border-radius: 10px;
+	padding: .75rem;
+}
+
+.formTitle {
+  text-align: center;
+}
+
+.switchButton {
+  max-width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ingredientDropdown {
+  position: absolute;
+  list-style: none;
+  margin-top: 0rem;
+  margin-bottom: 0rem;
+  padding: 0.4rem 1rem 0.4rem 1rem;
+  border-radius: 1rem;
+  background-color: red;
+}
+
+.hiddenElement {
+  display: none;
+}
+
+.ingredientItem {
+  
+}
