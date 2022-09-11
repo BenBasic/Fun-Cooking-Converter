@@ -74,6 +74,8 @@ export default function Converter() {
 
     const { amount, startUnit, ingredient, endUnit } = calcState;
 
+    const [startUnitState, setStartUnitState] = useState("hiddenElement");
+
     // const handleChange = event => {
     //     setIngredientSearch(event.target.value);
     // };
@@ -377,8 +379,9 @@ export default function Converter() {
                     }>Change from {unitState}</button>
 
                     <form id='conversion-form' onSubmit={handleSubmit}>
-                        <div>
+                        <div className="amountDiv">
                             <label htmlFor='amount'>Amount:</label>
+                            <br></br>
                             <input
                                 id='amount'
                                 type='text'
@@ -389,8 +392,55 @@ export default function Converter() {
                                 }
                             />
                         </div>
-                        <div>
+                        <div className="startUnitDiv">
                             <label htmlFor='startUnit'>Unit:</label>
+                            <br></br>
+
+
+                            <p
+                            tabindex="1"
+                            className="testDropdown"
+                            onClick={ startUnitState === "hiddenElement" ?
+                            () => {setStartUnitState("")} :
+                            () => {setStartUnitState("hiddenElement")} }
+                            onBlur={ () => {setStartUnitState("hiddenElement")} }
+                            // onBlur seems to completely void the setStates updating when selecting from list
+                            >
+                                {startUnit}
+                            </p>
+                            <ul
+                            className={`testDropdownList ${startUnitState}`}
+                            >
+                            {unitState === "volume" ?
+                            volumeList.map((volume) => (
+                                <li
+                                className="testItem"
+                                key={volume}
+                                onClick={ () => {
+                                    setCalcState({ ...calcState, startUnit: volume })
+                                    setStartUnitState("hiddenElement")
+                                }}
+                                >
+                                    {volume}
+                                </li>
+                            )) :
+                            weightList.map((weight) => (
+                                <li
+                                className="testItem"
+                                key={weight}
+                                onClick={ () => {
+                                    setCalcState({ ...calcState, startUnit: weight })
+                                    setStartUnitState("hiddenElement")
+                                }}
+                                >
+                                    {weight}
+                                </li>
+                            ))
+                            }
+                            </ul>
+
+
+                            <br></br>
                             <select
                             id="startUnit"
                             name="startUnit"
@@ -409,8 +459,9 @@ export default function Converter() {
                             }
                             </select>
                         </div>
-                        <div>
+                        <div className="ingredientDiv">
                             <label htmlFor='ingredient'>Ingredient:</label>
+                            <br></br>
                             <input
                                 id='ingredient'
                                 name='ingredient'
@@ -434,8 +485,9 @@ export default function Converter() {
                                 ))}
                             </ul>
                         </div>
-                        <div>
+                        <div className="endUnitDiv">
                             <label htmlFor='endUnit'>Unit:</label>
+                            <br></br>
                             <select
                             id="endUnit"
                             name="endUnit"
