@@ -4,55 +4,55 @@ import IngredientList from './IngredientList';
 export default function Converter() {
 
     const volumeList = [
-        "Liter",
-        "Milliliter",
-        "Gallon (US)",
-        "Quart (US)",
-        "Pint (US)",
+        "Liters",
+        "Milliliters",
+        "Gallons (US)",
+        "Quarts (US)",
+        "Pints (US)",
         "Cups (US)",
-        "Fluid Ounce (US)",
+        "Fluid Ounces (US)",
         "Tablespoons (US)",
         "Teaspoons (US)",
     ];
 
     const weightList = [
-        "Gram",
-        "Kilogram",
-        "Pound (US)",
-        "Ounce (US)",
+        "Grams",
+        "Kilograms",
+        "Pounds (US)",
+        "Ounces (US)",
     ];
 
     // Calculation to multiply by for gram related conversions (volume to gram, or gram to kilogram)
     const calcList = {
-        Liter: 1000,
-        Milliliter: 1,
-        GallonUS: 3785.41178,
-        QuartUS: 946.352946,
-        PintUS: 473.176473,
+        Liters: 1000,
+        Milliliters: 1,
+        GallonsUS: 3785.41178,
+        QuartsUS: 946.352946,
+        PintsUS: 473.176473,
         CupsUS: 236.588236,
-        FluidOunceUS: 29.57353,
+        FluidOuncesUS: 29.57353,
         TablespoonsUS: 14.786765,
         TeaspoonsUS: 4.928922,
-        Gram: 1,
-        Kilogram: 0.001,
-        PoundUS: 0.002205,
-        OunceUS: 0.035274,
+        Grams: 1,
+        Kilograms: 0.001,
+        PoundsUS: 0.002205,
+        OuncesUS: 0.035274,
     }
 
     const calcListWeight = {
-        Liter: 0.001,
-        Milliliter: 1,
-        GallonUS: 0.000264,
-        QuartUS: 0.001057,
-        PintUS: 0.002113,
+        Liters: 0.001,
+        Milliliters: 1,
+        GallonsUS: 0.000264,
+        QuartsUS: 0.001057,
+        PintsUS: 0.002113,
         CupsUS: 0.004227,
-        FluidOunceUS: 0.033814,
+        FluidOuncesUS: 0.033814,
         TablespoonsUS: 0.067628,
         TeaspoonsUS: 0.202884,
-        Gram: 1,
-        Kilogram: 1000,
-        PoundUS: 453.59237,
-        OunceUS: 28.349523,
+        Grams: 1,
+        Kilograms: 1000,
+        PoundsUS: 453.59237,
+        OuncesUS: 28.349523,
     }
 
     // Assigning the initial calcState to default values, these will change depending on user input for the form
@@ -75,6 +75,8 @@ export default function Converter() {
     const { amount, startUnit, ingredient, endUnit } = calcState;
 
     const [startUnitState, setStartUnitState] = useState("hiddenElement");
+
+    const [endUnitState, setEndUnitState] = useState("hiddenElement");
 
     // const handleChange = event => {
     //     setIngredientSearch(event.target.value);
@@ -304,12 +306,12 @@ export default function Converter() {
             console.log(convertUnit)
             console.log(convertDensity)
 
-            if (calcState.startUnit === "Gram") {
+            if (calcState.startUnit === "Grams") {
 
                 // This converts the grams into ml
                 conversionResult = unitToVolume(convertUnit, convertDensity);
 
-                if (calcState.endUnit === "Milliliter") {
+                if (calcState.endUnit === "Milliliters") {
                     // Calls the roundResult function, rounds result and sets resultState
                     roundResult(conversionResult);
 
@@ -328,7 +330,7 @@ export default function Converter() {
                 // Devides the new amount of grams by the ingredient density, resulting in converted volume
                 conversionResult = unitToVolume(converstionNewWeightResult, convertDensity);
 
-                if (calcState.endUnit === "Milliliter") {
+                if (calcState.endUnit === "Milliliters") {
 
                     // Calls the roundResult function, rounds result and sets resultState
                     roundResult(conversionResult);
@@ -344,18 +346,22 @@ export default function Converter() {
 
     console.log("SEARCH STATE")
     //console.log(ingredientSearch[0][0])
-    console.log(calcList['Liter'])
+    console.log(calcList['Liters'])
 
     function changeMode() {
         const beforeUnit = document.querySelector('#startUnit');
         const afterUnit = document.querySelector('#endUnit');
-        setCalcState({ ...calcState, startUnit: afterUnit.value, endUnit: beforeUnit.value, });
+        setCalcState({ ...calcState, startUnit: afterUnit.innerHTML, endUnit: beforeUnit.innerHTML, });
         console.log("UNIT SWAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPPPPP");
         console.log(calcState);
+        console.log(beforeUnit);
+        console.log(afterUnit);
     }
 
     console.log("CHECKING FOR CLASS REF")
     console.log(ingredientSearch)
+    console.log(document.querySelector('#startUnit'))
+    console.log(document.querySelector('#endUnit'))
    
 
     return (
@@ -400,6 +406,8 @@ export default function Converter() {
                             <p
                             tabindex="1"
                             className="testDropdown"
+                            id="startUnit"
+                            value={startUnit}
                             onClick={ startUnitState === "hiddenElement" ?
                             () => {setStartUnitState("")} :
                             () => {setStartUnitState("hiddenElement")} }
@@ -437,26 +445,6 @@ export default function Converter() {
                             ))
                             }
                             </ul>
-
-
-                            <br></br>
-                            <select
-                            id="startUnit"
-                            name="startUnit"
-                            value={startUnit}
-                            onChange={(e) =>
-                                setCalcState({ ...calcState, startUnit: e.target.value })
-                            }
-                            >
-                            {unitState === "volume" ?
-                            volumeList.map((volume) => (
-                                <option key={volume} value={volume}>{volume}</option>
-                            )) :
-                            weightList.map((weight) => (
-                                <option key={weight} value={weight}>{weight}</option>
-                            ))
-                            }
-                            </select>
                         </div>
                         <div className="ingredientDiv">
                             <label htmlFor='ingredient'>Ingredient:</label>
@@ -487,23 +475,49 @@ export default function Converter() {
                         <div className="endUnitDiv">
                             <label htmlFor='endUnit'>Unit:</label>
                             <br></br>
-                            <select
+
+                            <p
+                            tabindex="2"
+                            className="testDropdown"
                             id="endUnit"
-                            name="endUnit"
                             value={endUnit}
-                            onChange={(e) =>
-                                setCalcState({ ...calcState, endUnit: e.target.value })
-                            }
+                            onClick={ endUnitState === "hiddenElement" ?
+                            () => {setEndUnitState("")} :
+                            () => {setEndUnitState("hiddenElement")} }
+                            onBlur={ () => {setEndUnitState("hiddenElement")} }
                             >
-                            {unitState === "volume" ?
-                            weightList.map((weight) => (
-                                <option key={weight} value={weight}>{weight}</option>
-                            )) :
+                                {endUnit}
+                            </p>
+                            <ul
+                            className={`testDropdownList ${endUnitState}`}
+                            >
+                            {unitState === "weight" ?
                             volumeList.map((volume) => (
-                                <option key={volume} value={volume}>{volume}</option>
+                                <li
+                                className="testItem"
+                                key={volume}
+                                onMouseDown={ () => {
+                                    setCalcState({ ...calcState, endUnit: volume })
+                                    setEndUnitState("hiddenElement")
+                                }}
+                                >
+                                    {volume}
+                                </li>
+                            )) :
+                            weightList.map((weight) => (
+                                <li
+                                className="testItem"
+                                key={weight}
+                                onMouseDown={ () => {
+                                    setCalcState({ ...calcState, endUnit: weight })
+                                    setEndUnitState("hiddenElement")
+                                }}
+                                >
+                                    {weight}
+                                </li>
                             ))
                             }
-                            </select>
+                            </ul>
                         </div>
                         {errorMessage && (
                             <div>
