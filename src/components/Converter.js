@@ -404,7 +404,6 @@ export default function Converter() {
                             () => {setStartUnitState("")} :
                             () => {setStartUnitState("hiddenElement")} }
                             onBlur={ () => {setStartUnitState("hiddenElement")} }
-                            // onBlur seems to completely void the setStates updating when selecting from list
                             >
                                 {startUnit}
                             </p>
@@ -416,7 +415,7 @@ export default function Converter() {
                                 <li
                                 className="testItem"
                                 key={volume}
-                                onClick={ () => {
+                                onMouseDown={ () => {
                                     setCalcState({ ...calcState, startUnit: volume })
                                     setStartUnitState("hiddenElement")
                                 }}
@@ -428,7 +427,7 @@ export default function Converter() {
                                 <li
                                 className="testItem"
                                 key={weight}
-                                onClick={ () => {
+                                onMouseDown={ () => {
                                     setCalcState({ ...calcState, startUnit: weight })
                                     setStartUnitState("hiddenElement")
                                 }}
