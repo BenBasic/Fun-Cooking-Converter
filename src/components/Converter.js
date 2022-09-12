@@ -254,12 +254,12 @@ export default function Converter() {
 
         if (!ingredientSearch[0]) {
             console.log("NOTHING HERE")
-            setErrorMessage("Please enter an ingredient");
+            setResultState("Please type and select an ingredient from the list");
         }  
         else if (!ingredientSearch[0][0] || ingredientSearch[0][0].toLowerCase() !== ingredient.toLowerCase()) {
             console.log("NOTHING HERE 2")
             console.log(ingredient)
-            setErrorMessage("Please select an ingredient from the list");
+            setResultState("Please select an ingredient from the list");
         }
         else if (unitState === "volume") {
             // Grabs amount of what user wants to convert entered from amount field
@@ -371,7 +371,7 @@ export default function Converter() {
             <div className={`convertContainer`}>
 
                 <section className="formContainer">
-                    <h1 className='formTitle'>Fun title</h1>
+                    <h1 className='formTitle'>Fun Cooking Converter</h1>
 
                     <button
                     className="switchButton"
@@ -477,7 +477,10 @@ export default function Converter() {
                                 {ingredientSearch.map(item => (
                                 <li
                                 className="ingredientItem"
-                                onMouseDown={ () => {setCalcState({ ...calcState, ingredient: item[0] })}}
+                                onMouseDown={ () => {
+                                    setCalcState({ ...calcState, ingredient: item[0] })
+
+                                }}
                                 >
                                     {item[0]}
                                 </li>
@@ -534,14 +537,10 @@ export default function Converter() {
                             </ul>
                         </div>
 
-                        {errorMessage && (
-                            <div>
-                                <p className="errorAlert">{errorMessage}</p>
-                            </div>
-                        )}
                         <div className="submitContainer">
                             <button type="submit" className='submitButton'>Convert</button>
                         </div>
+
                     </form>
                 </section>
                 <h1>{resultState}</h1>
