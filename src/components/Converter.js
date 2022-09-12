@@ -78,6 +78,8 @@ export default function Converter() {
 
     const [endUnitState, setEndUnitState] = useState("hiddenElement");
 
+    const [ingredientState, setIngredientState] = useState("");
+
     // const handleChange = event => {
     //     setIngredientSearch(event.target.value);
     // };
@@ -397,6 +399,8 @@ export default function Converter() {
                                 onChange={(e) =>
                                     setCalcState({ ...calcState, amount: e.target.value })
                                 }
+                                autocomplete="off"
+                                readonly onfocus="this.removeAttribute('readonly');"
                             />
                         </div>
 
@@ -456,19 +460,24 @@ export default function Converter() {
                                 id='ingredient'
                                 name='ingredient'
                                 value={ingredient}
-                                onChange={(e) =>
+                                onChange={(e) => {
                                     setCalcState({ ...calcState, ingredient: e.target.value })
-                                }
+                                    setIngredientState("")
+                                }}
+                                onClick={ () => {setIngredientState("") }}
+                                onBlur={ () => {setIngredientState("hiddenElement") }}
+                                autocomplete="off"
+                                readonly onfocus="this.removeAttribute('readonly');"
                             />
                             <ul className={ ingredientSearch.length === 0 ? "ingredientDropdown hiddenElement" :
                             ingredient === ingredientSearch[0][0] || ingredient.length > ingredientSearch[0][0].length ?
                             "ingredientDropdown hiddenElement" :
-                            "ingredientDropdown"}
+                            `ingredientDropdown ${ingredientState}`}
                             >
                                 {ingredientSearch.map(item => (
                                 <li
                                 className="ingredientItem"
-                                onClick={ () => {setCalcState({ ...calcState, ingredient: item[0] })}}
+                                onMouseDown={ () => {setCalcState({ ...calcState, ingredient: item[0] })}}
                                 >
                                     {item[0]}
                                 </li>
