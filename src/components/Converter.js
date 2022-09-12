@@ -69,8 +69,7 @@ export default function Converter() {
     // Assigning the initial resultState to volume, will change to a value once a conversion is done
     const [resultState, setResultState] = useState();
 
-    // State for error message which will display on the form if user doesn't use correct input, no value by default
-    const [errorMessage, setErrorMessage] = useState("");
+
 
     const { amount, startUnit, ingredient, endUnit } = calcState;
 
@@ -79,6 +78,8 @@ export default function Converter() {
     const [endUnitState, setEndUnitState] = useState("hiddenElement");
 
     const [ingredientState, setIngredientState] = useState("");
+
+    const [clickedState, setClickedState] = useState({start: "", end: ""});
 
     // const handleChange = event => {
     //     setIngredientSearch(event.target.value);
@@ -410,13 +411,22 @@ export default function Converter() {
 
                             <p
                             tabindex="1"
-                            className="unitDropdown"
+                            className={`unitDropdown ${clickedState.start}`}
                             id="startUnit"
                             value={startUnit}
                             onClick={ startUnitState === "hiddenElement" ?
-                            () => {setStartUnitState("")} :
-                            () => {setStartUnitState("hiddenElement")} }
-                            onBlur={ () => {setStartUnitState("hiddenElement")} }
+                            () => {
+                                setStartUnitState("")
+                                setClickedState({ ...clickedState, start: "clickedButton"})
+                            } :
+                            () => {
+                                setStartUnitState("hiddenElement")
+                                setClickedState({ ...clickedState, start: ""})
+                            }}
+                            onBlur={ () => {
+                                setStartUnitState("hiddenElement")
+                                setClickedState({ ...clickedState, start: ""})
+                            }}
                             >
                                 {startUnit}
                             </p>
@@ -494,13 +504,22 @@ export default function Converter() {
 
                             <p
                             tabindex="2"
-                            className="unitDropdown"
+                            className={`unitDropdown ${clickedState.end}`}
                             id="endUnit"
                             value={endUnit}
                             onClick={ endUnitState === "hiddenElement" ?
-                            () => {setEndUnitState("")} :
-                            () => {setEndUnitState("hiddenElement")} }
-                            onBlur={ () => {setEndUnitState("hiddenElement")} }
+                            () => {
+                                setEndUnitState("")
+                                setClickedState({ ...clickedState, end: "clickedButton"})
+                            } :
+                            () => {
+                                setEndUnitState("hiddenElement")
+                                setClickedState({ ...clickedState, end: ""})
+                            }}
+                            onBlur={ () => {
+                                setEndUnitState("hiddenElement")
+                                setClickedState({ ...clickedState, end: ""})
+                            }}
                             >
                                 {endUnit}
                             </p>

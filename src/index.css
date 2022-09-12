@@ -54,6 +54,8 @@ code {
   border-style: none;
   padding: 0.5rem 1rem 0.5rem 1rem;
   cursor: pointer;
+  transition: .25s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .switchButton:hover, .submitButton:hover {
@@ -96,17 +98,29 @@ input:focus {
 	padding: .25rem 0;
   width: 100%;
   border-bottom: 2px solid var(--palette-color-contrast);
+  border-radius: 0.5rem 0.5rem 0rem 0rem;
   margin-top: 0rem;
   margin-bottom: 0rem;
   cursor: pointer;
   transition: .25s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.unitDropdown:focus {
+.unitDropdown:hover {
+  background-color: #0b2022;
+}
+
+/* .unitDropdown:focus {
   border-bottom-color: var(--palette-color-accent);
+  transform: translateY(-0.2rem);
+} */
+
+.clickedButton {
+  border-bottom-color: var(--palette-color-accent);
+  transform: translateY(-0.2rem);
 }
 
-.unitDropdown:focus ~ .dropdownArrow {
+.clickedButton ~ .dropdownArrow {
   color: var(--palette-color-accent);
 }
 
@@ -115,6 +129,9 @@ input:focus {
   right: 5%;
   bottom: 5%;
   pointer-events: none;
+  transition: .25s ease;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 
