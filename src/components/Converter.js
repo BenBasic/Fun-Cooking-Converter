@@ -464,7 +464,13 @@ export default function Converter() {
                         </div>
 
                         <div className="ingredientDiv">
-                            <label htmlFor='ingredient'>Ingredient:</label>
+                            <label
+                            htmlFor='ingredient'
+                            onClick={ (e) => {
+                                // Prevents clicking label from focusing input (preventing re-fading list)
+                                e.preventDefault()
+                            }}
+                            >Ingredient:</label>
                             <br></br>
                             <input
                                 id='ingredient'

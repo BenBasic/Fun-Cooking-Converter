@@ -145,6 +145,8 @@ input:focus {
   background-color: var(--palette-color-accent-soft);
   z-index: 2;
   cursor: pointer;
+  animation: 
+  fadeIn 300ms ease-in-out 0ms forwards;
 }
 
 .unitItem:hover, .ingredientItem:hover {
@@ -157,4 +159,17 @@ input:focus {
 
 .errorAlert {
   text-align: center;
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(0rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0.3rem);
+  }
 }
