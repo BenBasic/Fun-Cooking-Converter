@@ -385,6 +385,7 @@ export default function Converter() {
                     }>Change from {unitState}</button>
 
                     <form id='conversion-form' onSubmit={handleSubmit}>
+
                         <div className="amountDiv">
                             <label htmlFor='amount'>Amount:</label>
                             <br></br>
@@ -398,14 +399,14 @@ export default function Converter() {
                                 }
                             />
                         </div>
+
                         <div className="startUnitDiv">
                             <label htmlFor='startUnit'>Unit:</label>
                             <br></br>
 
-
                             <p
                             tabindex="1"
-                            className="testDropdown"
+                            className="unitDropdown"
                             id="startUnit"
                             value={startUnit}
                             onClick={ startUnitState === "hiddenElement" ?
@@ -415,13 +416,14 @@ export default function Converter() {
                             >
                                 {startUnit}
                             </p>
+                            <span className="dropdownArrow">▼</span>
                             <ul
-                            className={`testDropdownList ${startUnitState}`}
+                            className={`unitDropdownList ${startUnitState}`}
                             >
                             {unitState === "volume" ?
                             volumeList.map((volume) => (
                                 <li
-                                className="testItem"
+                                className="unitItem"
                                 key={volume}
                                 onMouseDown={ () => {
                                     setCalcState({ ...calcState, startUnit: volume })
@@ -433,7 +435,7 @@ export default function Converter() {
                             )) :
                             weightList.map((weight) => (
                                 <li
-                                className="testItem"
+                                className="unitItem"
                                 key={weight}
                                 onMouseDown={ () => {
                                     setCalcState({ ...calcState, startUnit: weight })
@@ -446,6 +448,7 @@ export default function Converter() {
                             }
                             </ul>
                         </div>
+
                         <div className="ingredientDiv">
                             <label htmlFor='ingredient'>Ingredient:</label>
                             <br></br>
@@ -472,13 +475,14 @@ export default function Converter() {
                                 ))}
                             </ul>
                         </div>
+
                         <div className="endUnitDiv">
                             <label htmlFor='endUnit'>Unit:</label>
                             <br></br>
 
                             <p
                             tabindex="2"
-                            className="testDropdown"
+                            className="unitDropdown"
                             id="endUnit"
                             value={endUnit}
                             onClick={ endUnitState === "hiddenElement" ?
@@ -488,13 +492,14 @@ export default function Converter() {
                             >
                                 {endUnit}
                             </p>
+                            <span className="dropdownArrow">▼</span>
                             <ul
-                            className={`testDropdownList ${endUnitState}`}
+                            className={`unitDropdownList ${endUnitState}`}
                             >
                             {unitState === "weight" ?
                             volumeList.map((volume) => (
                                 <li
-                                className="testItem"
+                                className="unitItem"
                                 key={volume}
                                 onMouseDown={ () => {
                                     setCalcState({ ...calcState, endUnit: volume })
@@ -506,7 +511,7 @@ export default function Converter() {
                             )) :
                             weightList.map((weight) => (
                                 <li
-                                className="testItem"
+                                className="unitItem"
                                 key={weight}
                                 onMouseDown={ () => {
                                     setCalcState({ ...calcState, endUnit: weight })
@@ -519,6 +524,7 @@ export default function Converter() {
                             }
                             </ul>
                         </div>
+
                         {errorMessage && (
                             <div>
                                 <p className="errorAlert">{errorMessage}</p>

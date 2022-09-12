@@ -43,6 +43,7 @@ code {
 
 .startUnitDiv, .ingredientDiv, .endUnitDiv {
   margin-top: 1rem;
+  position: relative;
 }
 
 .submitContainer {
@@ -50,7 +51,7 @@ code {
   text-align: center;
 }
 
-input, select {
+input {
   color: white;
   border: 0;
 	z-index: 1;
@@ -67,19 +68,34 @@ input:focus {
 	border-bottom-color: #6658d3;
 }
 
-option {
-  background-color: green;
-}
 
-.testDropdown {
+.unitDropdown {
   font-size: 1.125rem;
 	padding: .25rem 0;
   width: 100%;
   border-bottom: 2px solid #eee; 
+  margin-top: 0rem;
+  margin-bottom: 0rem;
+  cursor: pointer;
+}
+
+.unitDropdown:focus {
+  border-bottom-color: #6658d3;
+}
+
+.unitDropdown:focus ~ .dropdownArrow {
+  color: #6658d3;
+}
+
+.dropdownArrow {
+  position: absolute;
+  right: 5%;
+  bottom: 5%;
+  pointer-events: none;
 }
 
 
-.ingredientDropdown, .testDropdownList {
+.ingredientDropdown, .unitDropdownList {
   position: absolute;
   list-style: none;
   margin-top: 0rem;
@@ -87,12 +103,14 @@ option {
   padding: 0.4rem 1rem 0.4rem 1rem;
   border-radius: 1rem;
   background-color: red;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.unitItem:hover {
+  background-color: blue;
 }
 
 .hiddenElement {
   display: none;
-}
-
-.ingredientItem {
-  
 }
