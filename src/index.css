@@ -3,6 +3,9 @@
   --palette-color-accent: #e20a37;
   --palette-color-accent-soft: #5c4c4f;
   --palette-color-contrast: #eeeeed;
+
+  --bottom-border-standard: 2px solid var(--palette-color-contrast);
+  --bottom-border-list: 0.1rem solid #1d1b1b;
 }
 
 body {
@@ -26,8 +29,8 @@ code {
 	display: flex;
 	flex-direction: column;
 	width: 100%;
-	max-width: 425px;
-	border-radius: 10px;
+	max-width: 26.5rem;
+	border-radius: 0.6rem;
 	padding: .75rem;
   background-color: var(--palette-color-main);
 }
@@ -79,7 +82,7 @@ input {
   border: 0;
 	z-index: 1;
 	background-color: transparent;
-	border-bottom: 2px solid var(--palette-color-contrast);
+	border-bottom: var(--bottom-border-standard);
 	font: inherit;
 	font-size: 1.125rem;
 	padding: .25rem 0;
@@ -97,7 +100,7 @@ input:focus {
   font-size: 1.125rem;
 	padding: .25rem 0;
   width: 100%;
-  border-bottom: 2px solid var(--palette-color-contrast);
+  border-bottom: var(--bottom-border-standard);
   border-radius: 0.5rem 0.5rem 0rem 0rem;
   margin-top: 0rem;
   margin-bottom: 0rem;
@@ -137,6 +140,14 @@ input:focus {
 
 .ingredientDropdown, .unitDropdownList {
   position: absolute;
+  max-height: 43vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  
   list-style: none;
   margin-top: 0rem;
   margin-bottom: 0rem;
@@ -145,8 +156,33 @@ input:focus {
   background-color: var(--palette-color-accent-soft);
   z-index: 2;
   cursor: pointer;
-  animation: 
-  fadeIn 300ms ease-in-out 0ms forwards;
+  -webkit-tap-highlight-color: transparent;
+  animation: growDown 300ms ease-in-out forwards;
+  transform-origin: top center
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.ingredientDropdown::-webkit-scrollbar, .unitDropdownList::-webkit-scrollbar {
+  display: none;
+}
+
+
+
+.unitDropdownList li, .ingredientDropdown li {
+  border-bottom: var(--bottom-border-list);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.unitDropdownList li:last-child, .ingredientDropdown li:last-child {
+  border-bottom: none;
+  border-radius: 0rem 0rem 0.5rem 0.5rem;
+}
+
+.unitDropdownList li:first-child, .ingredientDropdown li:first-child {
+  border-radius: 0.5rem 0.5rem 0rem 0rem;
 }
 
 .unitItem:hover, .ingredientItem:hover {
@@ -164,12 +200,25 @@ input:focus {
 
 @keyframes fadeIn {
   from {
-    opacity: 0;
+    max-height: 0vh;
     transform: translateY(0rem);
   }
 
   to {
-    opacity: 1;
+    max-height: 43vh;
     transform: translateY(0.3rem);
   }
+}
+
+
+@keyframes growDown {
+    0% {
+        transform: scaleY(0)
+    }
+    80% {
+        transform: scaleY(1.1)
+    }
+    100% {
+        transform: scaleY(1)
+    }
 }
