@@ -213,12 +213,12 @@ input:focus {
 
 @keyframes growDown {
     0% {
-        transform: perspective(1px) scaleY(0)
+        transform: perspective(0px) scaleY(0)
     }
     80% {
-        transform: perspective(1px) scaleY(1.1)
+        transform: perspective(0px) scaleY(1.1)
     }
     100% {
-        transform: perspective(1px) scaleY(1)
+        transform: perspective(0px) scaleY(1)
     }
 }

@@ -400,8 +400,8 @@ export default function Converter() {
                                 onChange={(e) =>
                                     setCalcState({ ...calcState, amount: e.target.value })
                                 }
-                                autocomplete="off"
-                                readonly onfocus="this.removeAttribute('readonly');"
+                                autoComplete="off"
+                                readOnly={false}
                             />
                         </div>
 
@@ -410,7 +410,7 @@ export default function Converter() {
                             <br></br>
 
                             <p
-                            tabindex="1"
+                            tabIndex="1"
                             className={`unitDropdown ${clickedState.start}`}
                             id="startUnit"
                             value={startUnit}
@@ -482,8 +482,8 @@ export default function Converter() {
                                 }}
                                 onClick={ () => {setIngredientState("") }}
                                 onBlur={ () => {setIngredientState("hiddenElement") }}
-                                autocomplete="off"
-                                readonly onfocus="this.removeAttribute('readonly');"
+                                autoComplete="off"
+                                readOnly={false}
                             />
                             <ul className={ ingredientSearch.length === 0 ? "ingredientDropdown hiddenElement" :
                             ingredient === ingredientSearch[0][0] || ingredient.length > ingredientSearch[0][0].length ?
@@ -493,6 +493,7 @@ export default function Converter() {
                                 {ingredientSearch.map(item => (
                                 <li
                                 className="ingredientItem"
+                                key={item[0]}
                                 onMouseDown={ () => {
                                     setCalcState({ ...calcState, ingredient: item[0] })
 
@@ -509,7 +510,7 @@ export default function Converter() {
                             <br></br>
 
                             <p
-                            tabindex="2"
+                            tabIndex="2"
                             className={`unitDropdown ${clickedState.end}`}
                             id="endUnit"
                             value={endUnit}
