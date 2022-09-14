@@ -29,6 +29,15 @@ export default function List() {
         {name: "Sugar, granulated", density: 0.7},
         {name: "Sugar, powdered", density: 0.56},
         {name: "Sugar, white", density: 0.88},
+        {name: "Sugar, white2", density: 0.88},
+        {name: "Sugar, white3", density: 0.88},
+        {name: "Sugar, white4", density: 0.88},
+        {name: "Sugar, white5", density: 0.88},
+        {name: "Sugar, white6", density: 0.88},
+        {name: "Sugar, white7", density: 0.88},
+        {name: "Sugar, white8", density: 0.88},
+        {name: "Sugar, white9", density: 0.88},
+        {name: "Sugar, white10", density: 0.88},
 
         //Syrup, blackcurrant, undiluted
 

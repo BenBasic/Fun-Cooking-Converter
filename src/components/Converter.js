@@ -476,11 +476,52 @@ export default function Converter() {
                                 id='ingredient'
                                 name='ingredient'
                                 value={ingredient}
-                                onChange={(e) => {
+                                onChange={
+
+                                ingredientState === "hiddenElement" && ingredientSearch ?
+                                (e) => {
+                                    // If user is typing from a blank input value, then play dropdown animation
+                                    setCalcState({ ...calcState, ingredient: e.target.value })
+                                    setIngredientState("animationDrop")
+                                } :
+                                
+                                ingredientState === "" ?
+                                (e) => {
+                                    // If there is no ingredient listed from search, play dropdown animation
+                                    if (!ingredientSearch[0]) {
+                                        setIngredientState("animationDrop")
+                                    } 
+                                    // Else if to prevent error if no ingredient is listed
+                                    // If user deletes character from a fully typed/selected item, animation plays
+                                    else if (ingredient === ingredientSearch[0][0]) {
+                                        setIngredientState("animationDrop")
+                                    }
+                                    // After checking for either of above conditions, set the state
+                                    setCalcState({ ...calcState, ingredient: e.target.value })
+                                } :
+
+                                ingredientState === "animationDrop" && ingredientSearch.length === 1 ?
+                                (e) => {
+                                    // If user deletes character from a fully typed/selected item, animation plays
+                                    if (ingredient === ingredientSearch[0][0]) {
+                                        setCalcState({ ...calcState, ingredient: e.target.value })
+                                    } else {
+                                        // If user types anything, animation class is removed to unblur text
+                                        setCalcState({ ...calcState, ingredient: e.target.value })
+                                        setIngredientState("")
+                                    }
+                                } :
+                                
+                                (e) => {
+                                    // If any of the above if checks dont trigger, fallback to safe set states
                                     setCalcState({ ...calcState, ingredient: e.target.value })
                                     setIngredientState("")
                                 }}
-                                onClick={ () => {setIngredientState("") }}
+
+                                onClick={ ingredientSearch.length === 0 ?
+                                    () => {setIngredientState("hiddenElement")} :
+                                    () => {setIngredientState("animationDrop")}
+                                }
                                 onBlur={ () => {setIngredientState("hiddenElement") }}
                                 autoComplete="off"
                                 readOnly={false}
