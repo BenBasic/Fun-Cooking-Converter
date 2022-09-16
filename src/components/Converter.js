@@ -361,6 +361,8 @@ export default function Converter() {
         console.log(afterUnit);
     }
 
+
+
     console.log("CHECKING FOR CLASS REF")
     console.log(ingredientSearch)
     console.log(document.querySelector('#startUnit'))
@@ -487,7 +489,10 @@ export default function Converter() {
                                 
                                 ingredientState === "" ?
                                 (e) => {
-                                    // If there is no ingredient listed from search, play dropdown animation
+                                    /* If there is no ingredient listed from search prior to typing character
+                                    but ingredients begin to be listed after typing a character, then it will
+                                    play the dropdown animation
+                                    */
                                     if (!ingredientSearch[0]) {
                                         setIngredientState("animationDrop")
                                     } 
@@ -499,23 +504,11 @@ export default function Converter() {
                                     // After checking for either of above conditions, set the state
                                     setCalcState({ ...calcState, ingredient: e.target.value })
                                 } :
-
-                                ingredientState === "animationDrop" && ingredientSearch.length === 1 ?
-                                (e) => {
-                                    // If user deletes character from a fully typed/selected item, animation plays
-                                    if (ingredient === ingredientSearch[0][0]) {
-                                        setCalcState({ ...calcState, ingredient: e.target.value })
-                                    } else {
-                                        // If user types anything, animation class is removed to unblur text
-                                        setCalcState({ ...calcState, ingredient: e.target.value })
-                                        setIngredientState("")
-                                    }
-                                } :
                                 
                                 (e) => {
                                     // If any of the above if checks dont trigger, fallback to safe set states
                                     setCalcState({ ...calcState, ingredient: e.target.value })
-                                    setIngredientState("")
+                                    //setIngredientState("")
                                 }}
 
                                 onClick={ ingredientSearch.length === 0 ?
@@ -526,10 +519,12 @@ export default function Converter() {
                                 autoComplete="off"
                                 readOnly={false}
                             />
-                            <ul className={ ingredientSearch.length === 0 ? "ingredientDropdown hiddenElement" :
+                            <ul
+                            className={ ingredientSearch.length === 0 ? "ingredientDropdown hiddenElement" :
                             ingredient === ingredientSearch[0][0] || ingredient.length > ingredientSearch[0][0].length ?
                             "ingredientDropdown hiddenElement" :
                             `ingredientDropdown ${ingredientState}`}
+                            onAnimationEnd={() => {setIngredientState("")}}
                             >
                                 {ingredientSearch.map(item => (
                                 <li
