@@ -416,15 +416,17 @@ export default function Converter() {
                             className={`unitDropdown ${clickedState.start}`}
                             id="startUnit"
                             value={startUnit}
+
                             onClick={ startUnitState === "hiddenElement" ?
                             () => {
-                                setStartUnitState("")
+                                setStartUnitState("animationDrop")
                                 setClickedState({ ...clickedState, start: "clickedButton"})
                             } :
                             () => {
                                 setStartUnitState("hiddenElement")
                                 setClickedState({ ...clickedState, start: ""})
                             }}
+
                             onBlur={ () => {
                                 setStartUnitState("hiddenElement")
                                 setClickedState({ ...clickedState, start: ""})
@@ -435,6 +437,7 @@ export default function Converter() {
                             <span className="dropdownArrow">▼</span>
                             <ul
                             className={`unitDropdownList ${startUnitState}`}
+                            onAnimationEnd={() => {setStartUnitState("")}}
                             >
                             {unitState === "volume" ?
                             volumeList.map((volume) => (
@@ -524,7 +527,9 @@ export default function Converter() {
                             ingredient === ingredientSearch[0][0] || ingredient.length > ingredientSearch[0][0].length ?
                             "ingredientDropdown hiddenElement" :
                             `ingredientDropdown ${ingredientState}`}
+
                             onAnimationEnd={() => {setIngredientState("")}}
+                            
                             >
                                 {ingredientSearch.map(item => (
                                 <li
@@ -552,7 +557,7 @@ export default function Converter() {
                             value={endUnit}
                             onClick={ endUnitState === "hiddenElement" ?
                             () => {
-                                setEndUnitState("")
+                                setEndUnitState("animationDrop")
                                 setClickedState({ ...clickedState, end: "clickedButton"})
                             } :
                             () => {
@@ -569,6 +574,7 @@ export default function Converter() {
                             <span className="dropdownArrow">▼</span>
                             <ul
                             className={`unitDropdownList ${endUnitState}`}
+                            onAnimationEnd={() => {setEndUnitState("")}}
                             >
                             {unitState === "weight" ?
                             volumeList.map((volume) => (

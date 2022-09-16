@@ -28,7 +28,10 @@ code {
 	margin: 2rem auto;
 	display: flex;
 	flex-direction: column;
-	width: 100%;
+
+  /* Causing off-centering for responsiveness, leaving off for now */
+	/* width: 100%; */
+
 	max-width: 26.5rem;
 	border-radius: 0.6rem;
 	padding: .75rem;
@@ -68,6 +71,8 @@ code {
 
 #conversion-form {
   padding: 2rem 1rem 1rem;
+
+  /* This seems to cause text blurring on startUnit list on mobile sizes */
   margin-left: auto;
   margin-right: auto;
 }
@@ -185,7 +190,8 @@ input:focus {
 }
 
 .unitDropdownList li:first-child, .ingredientDropdown li:first-child {
-  border-radius: 0.5rem 0.5rem 0rem 0rem;
+  /* Setting bottom cornors to negative value fixed thinner bottom border issue */
+  border-radius: 0.5rem 0.5rem -1rem -1rem;
 }
 
 .unitItem:hover, .ingredientItem:hover {
