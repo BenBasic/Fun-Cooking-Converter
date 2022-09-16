@@ -138,6 +138,9 @@ input:focus {
   bottom: 5%;
   pointer-events: none;
   transition: .25s ease;
+}
+
+.backfaceProp {
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }

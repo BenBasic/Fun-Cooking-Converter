@@ -79,7 +79,9 @@ export default function Converter() {
 
     const [ingredientState, setIngredientState] = useState("");
 
-    const [clickedState, setClickedState] = useState({start: "", end: ""});
+    const [clickedState, setClickedState] = useState({start: "", ingredient: "", end: ""});
+
+    const [backfaceState, setBackfaceState] = useState("")
 
     // const handleChange = event => {
     //     setIngredientSearch(event.target.value);
@@ -434,7 +436,9 @@ export default function Converter() {
                             >
                                 {startUnit}
                             </p>
-                            <span className="dropdownArrow">▼</span>
+
+                            <span className="dropdownArrow backfaceProp">▼</span>
+
                             <ul
                             className={`unitDropdownList ${startUnitState}`}
                             onAnimationEnd={() => {setStartUnitState("")}}
@@ -501,7 +505,8 @@ export default function Converter() {
                                     } 
                                     // Else if to prevent error if no ingredient is listed
                                     // If user deletes character from a fully typed/selected item, animation plays
-                                    else if (ingredient === ingredientSearch[0][0]) {
+                                    // Length check to make sure it only applies to fully typed/selected item
+                                    else if (ingredient === ingredientSearch[0][0] && ingredientSearch.length <= 1) {
                                         setIngredientState("animationDrop")
                                     }
                                     // After checking for either of above conditions, set the state
@@ -515,18 +520,41 @@ export default function Converter() {
                                 }}
 
                                 onClick={ ingredientSearch.length === 0 ?
-                                    () => {setIngredientState("hiddenElement")} :
-                                    () => {setIngredientState("animationDrop")}
+
+                                    // If there is no ingredients to display, hide the dropdown element
+                                    () => {
+                                        setIngredientState("hiddenElement")
+                                        setClickedState({ ...clickedState, ingredient: "clickedInput"})
+                                    } :
+
+                                    // If the ingredient input is already clicked, dont do anything
+                                    clickedState.ingredient === "clickedInput" ?
+                                    () => null :
+
+                                    // If the above checks arent true, then play a dropdown animation
+                                    () => {
+                                        setIngredientState("animationDrop")
+                                        setClickedState({ ...clickedState, ingredient: "clickedInput"})
+                                    }
                                 }
-                                onBlur={ () => {setIngredientState("hiddenElement") }}
+                                onBlur={ () => {
+                                    setIngredientState("hiddenElement") 
+                                    setClickedState({ ...clickedState, ingredient: ""})
+                                }}
                                 autoComplete="off"
                                 readOnly={false}
                             />
                             <ul
-                            className={ ingredientSearch.length === 0 ? "ingredientDropdown hiddenElement" :
-                            ingredient === ingredientSearch[0][0] || ingredient.length > ingredientSearch[0][0].length ?
-                            "ingredientDropdown hiddenElement" :
-                            `ingredientDropdown ${ingredientState}`}
+                            className={
+                                // If there are no ingredients to populate dropdown list, hide dropdown
+                                ingredientSearch.length === 0 ? "ingredientDropdown hiddenElement" :
+                                // If input matches top ingredient and theres no other ingredients to list, hide dropdown
+                                (ingredient === ingredientSearch[0][0] && ingredientSearch.length <= 1) || 
+                                // If user types characters after having a fully typed/selected item, hide dropdown
+                                (ingredient.length > ingredientSearch[0][0].length && ingredientSearch.length <= 1) ?
+                                "ingredientDropdown hiddenElement" :
+                                `ingredientDropdown ${ingredientState}`
+                            }
 
                             onAnimationEnd={() => {setIngredientState("")}}
                             
@@ -555,15 +583,19 @@ export default function Converter() {
                             className={`unitDropdown ${clickedState.end}`}
                             id="endUnit"
                             value={endUnit}
+
                             onClick={ endUnitState === "hiddenElement" ?
                             () => {
                                 setEndUnitState("animationDrop")
                                 setClickedState({ ...clickedState, end: "clickedButton"})
+                                // Adds backface visibility property to prevent wobble on transition
+                                setBackfaceState("backfaceProp")
                             } :
                             () => {
                                 setEndUnitState("hiddenElement")
                                 setClickedState({ ...clickedState, end: ""})
                             }}
+
                             onBlur={ () => {
                                 setEndUnitState("hiddenElement")
                                 setClickedState({ ...clickedState, end: ""})
@@ -571,7 +603,19 @@ export default function Converter() {
                             >
                                 {endUnit}
                             </p>
-                            <span className="dropdownArrow">▼</span>
+
+                            <span className={
+                                // Checks if startUnit dropdown is visible, removes backfaceProp to prevent blurry text
+                                clickedState.start === "clickedButton" || 
+                                // Checks if ingredient input has been clicked and if the dropdown is visible, removes backfaceProp if so
+                                (clickedState.ingredient === "clickedInput" && ingredientSearch[0]) ?
+                                `dropdownArrow` :
+                                `dropdownArrow backfaceProp`
+                            }
+                            >
+                                ▼
+                            </span>
+
                             <ul
                             className={`unitDropdownList ${endUnitState}`}
                             onAnimationEnd={() => {setEndUnitState("")}}
