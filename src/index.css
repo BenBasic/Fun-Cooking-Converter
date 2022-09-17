@@ -228,9 +228,36 @@ input:focus {
 .resultSuccess {
   padding-top: 1rem;
   padding-bottom: 1rem;
+  transform-origin: top center;
+  display: flex;
+  justify-content: center;
 }
 
-.conversionMessage h1, .conversionMessage h2{
+.msgAnim1, .msgAnim2, .msgAnim3, .msgAnim4, .msgAnim5 {
+  transform: perspective(0px) scale(0);
+}
+
+.msgAnim1 {
+  animation: messageAppear 300ms ease-in-out 0ms forwards;
+}
+
+.msgAnim2 {
+  animation: messageAppear 300ms ease-in-out 100ms forwards;
+}
+
+.msgAnim3 {
+  animation: messageAppear 300ms ease-in-out 200ms forwards;
+}
+
+.msgAnim4 {
+  animation: messageAppear 300ms ease-in-out 300ms forwards;
+}
+
+.msgAnim5 {
+  animation: messageAppear 300ms ease-in-out 400ms forwards;
+}
+
+.conversionMessage h1, .conversionMessage h2 {
   margin-top: 0px;
   margin-bottom: 0px;
 }
@@ -282,6 +309,24 @@ input:focus {
   }
   50% {
       transform: perspective(0px) scale(0.9)
+  }
+  100% {
+      transform: perspective(0px) scale(1)
+  }
+}
+
+@keyframes messageAppear {
+  0% {
+      transform: perspective(0px) scale(0)
+  }
+  5% {
+      transform: perspective(0px) scale(1.1)
+  }
+  10% {
+      transform: perspective(0px) scale(0.8)
+  }
+  50% {
+      transform: perspective(0px) scale(1.05)
   }
   100% {
       transform: perspective(0px) scale(1)

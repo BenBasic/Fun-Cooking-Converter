@@ -80,6 +80,8 @@ export default function Converter() {
 
     const [bounceState, setBounceState] = useState({switch: "", convert: ""})
 
+    const [msgAnimState, setMsgAnimState] = useState("")
+
 
     // State which defines the message shown to user after converting a value
     const [messageState, setMessageState] = useState({
@@ -682,7 +684,10 @@ export default function Converter() {
                             type="submit"
                             className={`submitButton ${bounceState.convert}`}
 
-                            onClick={ () => {setBounceState({ ...bounceState, convert: "bounceClick"})} }
+                            onClick={ () => {
+                                setBounceState({ ...bounceState, convert: "bounceClick"})
+                                setMsgAnimState("msgAnim")
+                            }}
 
                             onAnimationEnd={ () => {setBounceState({ ...bounceState, convert: ""})} }
                             >Convert</button>
@@ -703,11 +708,15 @@ export default function Converter() {
                         "conversionMessage hiddenElement"
                         }
                         >
-                            <h2>{messageState.amountM} {messageState.startUnitM}</h2>
-                            <h1>of</h1>
-                            <h2>{messageState.ingredientM}</h2>
-                            <h1>is</h1>
-                            <h2>{messageState.resultM} {messageState.endUnitM}</h2>
+                            <h2 className={`${msgAnimState}1`}>{messageState.amountM} {messageState.startUnitM}</h2>
+                            <h1 className={`${msgAnimState}2`}>of</h1>
+                            <h2 className={`${msgAnimState}3`}>{messageState.ingredientM}</h2>
+                            <h1 className={`${msgAnimState}4`}>is</h1>
+                            <h2
+                            className={`${msgAnimState}5`}
+                            onAnimationEnd={ () => {setMsgAnimState("")}}
+
+                            >{messageState.resultM} {messageState.endUnitM}</h2>
                         </section>
 
                         <section className={
