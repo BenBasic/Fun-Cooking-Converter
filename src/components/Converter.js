@@ -81,7 +81,7 @@ export default function Converter() {
 
     const [clickedState, setClickedState] = useState({start: "", ingredient: "", end: ""});
 
-    const [backfaceState, setBackfaceState] = useState("")
+    const [bounceState, setBounceState] = useState({switch: "", convert: ""})
 
     // const handleChange = event => {
     //     setIngredientSearch(event.target.value);
@@ -357,6 +357,7 @@ export default function Converter() {
         const beforeUnit = document.querySelector('#startUnit');
         const afterUnit = document.querySelector('#endUnit');
         setCalcState({ ...calcState, startUnit: afterUnit.innerHTML, endUnit: beforeUnit.innerHTML, });
+        setBounceState({ ...bounceState, switch: "bounceClick"})
         console.log("UNIT SWAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPPPPP");
         console.log(calcState);
         console.log(beforeUnit);
@@ -379,7 +380,7 @@ export default function Converter() {
                     <h1 className='formTitle'>Fun Cooking Converter</h1>
 
                     <button
-                    className="switchButton"
+                    className={`switchButton ${bounceState.switch}`}
                     onClick={ unitState === "volume" ?
                     () => {
                         setUnitState("weight");
@@ -388,8 +389,11 @@ export default function Converter() {
                     () => {
                         setUnitState("volume");
                         changeMode();
-                    }
-                    }>Change from {unitState}</button>
+                    }}
+
+                    onAnimationEnd={ () => {setBounceState({ ...bounceState, switch: ""})} }
+                    
+                    >Change from {unitState}</button>
 
                     <form id='conversion-form' onSubmit={handleSubmit}>
 
@@ -588,8 +592,6 @@ export default function Converter() {
                             () => {
                                 setEndUnitState("animationDrop")
                                 setClickedState({ ...clickedState, end: "clickedButton"})
-                                // Adds backface visibility property to prevent wobble on transition
-                                setBackfaceState("backfaceProp")
                             } :
                             () => {
                                 setEndUnitState("hiddenElement")
@@ -650,12 +652,30 @@ export default function Converter() {
                         </div>
 
                         <div className="submitContainer">
-                            <button type="submit" className='submitButton'>Convert</button>
+                            <button
+                            type="submit"
+                            className={`submitButton ${bounceState.convert}`}
+
+                            onClick={ () => {setBounceState({ ...bounceState, convert: "bounceClick"})} }
+
+                            onAnimationEnd={ () => {setBounceState({ ...bounceState, convert: ""})} }
+                            >Convert</button>
                         </div>
 
                     </form>
                 </section>
-                <h1>{resultState}</h1>
+
+                <div className="resultContainer">
+                    <section className={ resultState === null ?
+                    "resultSuccess" :
+                    null
+                }
+                >
+                        <h2>{amount} of {ingredient} is</h2>
+                        <h1>{resultState} {endUnit}</h1>
+                    </section>
+                </div>
+
             </div>
 
 

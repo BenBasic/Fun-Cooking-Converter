@@ -38,6 +38,21 @@ code {
   background-color: var(--palette-color-main);
 }
 
+.formTitle,
+#conversion-form label,
+.switchButton,
+.submitButton,
+.startUnitDiv p,
+.startUnitDiv li,
+.endUnitDiv p,
+.endUnitDiv li
+{
+  -webkit-user-select: none; /* Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+}
+
 .formTitle {
   text-align: center;
 }
@@ -67,6 +82,10 @@ code {
 .switchButton:hover, .submitButton:hover {
   color: var(--palette-color-contrast);
   background-color: #ac1231;
+}
+
+.bounceClick {
+  animation: bounce 300ms ease-in-out forwards;
 }
 
 #conversion-form {
@@ -233,4 +252,23 @@ input:focus {
     100% {
         transform: perspective(0px) scaleY(1)
     }
+}
+
+
+@keyframes bounce {
+  0% {
+      transform: perspective(0px) scale(1)
+  }
+  5% {
+      transform: perspective(0px) scale(0.7)
+  }
+  10% {
+      transform: perspective(0px) scale(1.1)
+  }
+  50% {
+      transform: perspective(0px) scale(0.9)
+  }
+  100% {
+      transform: perspective(0px) scale(1)
+  }
 }
