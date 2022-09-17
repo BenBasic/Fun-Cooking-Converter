@@ -66,9 +66,6 @@ export default function Converter() {
     // Assigning the initial unitState to volume, will change depending on if user wants volume>weight or weight>volume
     const [unitState, setUnitState] = useState("volume");
 
-    // Assigning the initial resultState to volume, will change to a value once a conversion is done
-    const [resultState, setResultState] = useState();
-
 
 
     const { amount, startUnit, ingredient, endUnit } = calcState;
@@ -82,6 +79,16 @@ export default function Converter() {
     const [clickedState, setClickedState] = useState({start: "", ingredient: "", end: ""});
 
     const [bounceState, setBounceState] = useState({switch: "", convert: ""})
+
+
+    // State which defines the message shown to user after converting a value
+    const [messageState, setMessageState] = useState({
+        amountM: "",
+        startUnitM: "",
+        ingredientM: "", 
+        resultM: "",
+        endUnitM: "",
+    });
 
     // const handleChange = event => {
     //     setIngredientSearch(event.target.value);
@@ -232,8 +239,15 @@ export default function Converter() {
         function roundResult(sourceResult) {
             // Result is rounded, will only show up to the 2nd decimal point (ex: 23.63)
             conversionRoundedResult = sourceResult.toFixed(2);
-            // Sets the result state to the rounded result, allowing it to display on the page
-            setResultState(conversionRoundedResult);
+
+            // Sets the values from converter form and resulting number to display as a message
+            setMessageState({ ...messageState,
+                amountM: calcState.amount,
+                startUnitM: calcState.startUnit,
+                ingredientM: calcState.ingredient,
+                resultM: conversionRoundedResult,
+                endUnitM: calcState.endUnit,
+            })
             console.log("!!!!!!!!!!!!!!!!!!!!FUNCTION ROUND RESULT HAS OCCURED!!!!!!!!!!!!!!!!!!!!!!!")
         }
 
@@ -250,19 +264,31 @@ export default function Converter() {
             console.log("NEW WEIGHT IS !!!!!!!!!");
             console.log(converstionNewWeightResult);
             console.log(conversionRoundedResult);
-            // Sets the result state to the rounded result, allowing it to display on the page
-            setResultState(conversionRoundedResult);
+
+            // Sets the values from converter form and resulting number to display as a message
+            setMessageState({ ...messageState,
+                amountM: calcState.amount,
+                startUnitM: calcState.startUnit,
+                ingredientM: calcState.ingredient,
+                resultM: conversionRoundedResult,
+                endUnitM: calcState.endUnit,
+            })
             console.log("+++++++++++++++++++++++++FUNCTION convertThenRoundResult HAS OCCURED+++++++++++++++++++++++++")
         }
 
         if (!ingredientSearch[0]) {
             console.log("NOTHING HERE")
-            setResultState("Please type and select an ingredient from the list");
+            // Sets the result as an error message which will display when user hasnt typed anything in ingredient field
+            setMessageState({ ...messageState, resultM: "Please type and select an ingredient from the list" })
         }  
         else if (!ingredientSearch[0][0] || ingredientSearch[0][0].toLowerCase() !== ingredient.toLowerCase()) {
             console.log("NOTHING HERE 2")
             console.log(ingredient)
-            setResultState("Please select an ingredient from the list");
+            // Sets the result as an error message which will display when user's input doesnt match an ingredient
+            setMessageState({ ...messageState, resultM: "Please select an ingredient from the list" })
+        }
+        else if (/^\d*\.?\d*$/.test(calcState.amount) === false || calcState.amount === "") {
+            setMessageState({ ...messageState, resultM: "Please enter a valid amount number" })
         }
         else if (unitState === "volume") {
             // Grabs amount of what user wants to convert entered from amount field
@@ -666,13 +692,35 @@ export default function Converter() {
                 </section>
 
                 <div className="resultContainer">
-                    <section className={ resultState === null ?
+                    <section className={ messageState.resultM !== "" ?
                     "resultSuccess" :
-                    null
-                }
-                >
-                        <h2>{amount} of {ingredient} is</h2>
-                        <h1>{resultState} {endUnit}</h1>
+                    "resultSuccess hiddenElement"
+                    }
+                    >
+
+                        <section className={ /\d/.test(messageState.resultM) && /^\d*\.?\d*$/.test(messageState.amountM) ?
+                        "conversionMessage" :
+                        "conversionMessage hiddenElement"
+                        }
+                        >
+                            <h2>{messageState.amountM} {messageState.startUnitM}</h2>
+                            <h1>of</h1>
+                            <h2>{messageState.ingredientM}</h2>
+                            <h1>is</h1>
+                            <h2>{messageState.resultM} {messageState.endUnitM}</h2>
+                        </section>
+
+                        <section className={
+                            /^\d*\.?\d*$/.test(messageState.amountM) === false ||
+                            /\d/.test(messageState.resultM) === false ?
+                            "conversionMessage" :
+                            "conversionMessage hiddenElement"
+                        }
+                        >
+                        <h2>{messageState.resultM}</h2>
+                        </section>
+
+
                     </section>
                 </div>
 
