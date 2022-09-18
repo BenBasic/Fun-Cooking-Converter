@@ -66,7 +66,7 @@ export default function Converter() {
     // Assigning the initial unitState to volume, will change depending on if user wants volume>weight or weight>volume
     const [unitState, setUnitState] = useState("volume");
 
-
+    const [convertToUnitState, setConvertToUnitState] = useState("weight");
 
     const { amount, startUnit, ingredient, endUnit } = calcState;
 
@@ -506,16 +506,18 @@ export default function Converter() {
                     onClick={ unitState === "volume" ?
                     () => {
                         setUnitState("weight");
+                        setConvertToUnitState("volume")
                         changeMode();
                     } :
                     () => {
                         setUnitState("volume");
+                        setConvertToUnitState("weight")
                         changeMode();
                     }}
 
                     onAnimationEnd={ () => {setBounceState({ ...bounceState, switch: ""})} }
                     
-                    >Change from {unitState}</button>
+                    >{unitState} ⇄ {convertToUnitState}</button>
 
                     <form id='conversion-form' onSubmit={handleSubmit}>
 
@@ -854,46 +856,6 @@ export default function Converter() {
 
             </div>
 
-
-            <div>
-                <h1>Gallons to Grams</h1>
-                <h2>{unitToWeight(1, gallonGramCalc, 1.38)}</h2>
-
-                <h1>Quarts to Grams</h1>
-                <h2>{unitToWeight(1, quartGramCalc, 1.38)}</h2>
-
-                <h1>Pints to Grams</h1>
-                <h2>{unitToWeight(1, pintGramCalc, 1.38)}</h2>
-
-                <h1>Cups to Grams</h1>
-                <h2>{unitToWeight(1, cupGramCalc, 1.38)}</h2>
-
-                <h1>Fluid Ounces to Grams</h1>
-                <h2>{unitToWeight(1, flOzGramsCalc, 1.38)}</h2>
-
-                <h1>Liters to Grams</h1>
-                <h2>{unitToWeight(1, literGramCalc, 1.38)}</h2>
-
-                <h1>Tablespoons to Grams</h1>
-                <h2>{unitToWeight(1, tablespGramCalc, 1.38)}</h2>
-
-                <h1>Teaspoons to Grams</h1>
-                <h2>{unitToWeight(1, tspGramCalc, 1.38)}</h2>
-
-                <h1>Milliliters to Grams</h1>
-                <h2>{unitToWeight(1, mlGramCalc, 1.38)}</h2>
-
-                <h4>-----------------------------</h4>
-
-                <h1>Grams to Ounces</h1>
-                <h2>{weightToWeight(testMeasure, gToOz)}</h2>
-
-                <h1>Grams to Pounds</h1>
-                <h2>{weightToWeight(testMeasure, gToLb)}</h2>
-
-                <h1>Grams to Kilograms</h1>
-                <h2>{weightToWeight(testMeasure, gToKg)}</h2>
-            </div>
         </>
     )
 }
