@@ -222,7 +222,7 @@ input:focus {
 
 .resultContainer {
   text-align: center;
-  background-color: #0b2022;
+  
 }
 
 .resultSuccess {
@@ -231,6 +231,12 @@ input:focus {
   transform-origin: top center;
   display: flex;
   justify-content: center;
+  background-color: #0b2022;
+  animation: messageBackgroundAppear 200ms ease-in-out 0ms forwards;
+}
+
+.msgSwitch {
+  animation: messageSwitchBounce 1000ms ease-in-out 0ms forwards;
 }
 
 .msgAnim1, .msgAnim2, .msgAnim3, .msgAnim4, .msgAnim5 {
@@ -238,23 +244,23 @@ input:focus {
 }
 
 .msgAnim1 {
-  animation: messageAppear 300ms ease-in-out 0ms forwards;
-}
-
-.msgAnim2 {
   animation: messageAppear 300ms ease-in-out 100ms forwards;
 }
 
-.msgAnim3 {
+.msgAnim2 {
   animation: messageAppear 300ms ease-in-out 200ms forwards;
 }
 
-.msgAnim4 {
+.msgAnim3 {
   animation: messageAppear 300ms ease-in-out 300ms forwards;
 }
 
-.msgAnim5 {
+.msgAnim4 {
   animation: messageAppear 300ms ease-in-out 400ms forwards;
+}
+
+.msgAnim5 {
+  animation: messageAppear 300ms ease-in-out 500ms forwards;
 }
 
 .conversionMessage h1, .conversionMessage h2 {
@@ -319,16 +325,48 @@ input:focus {
   0% {
       transform: perspective(0px) scale(0)
   }
-  5% {
+  20% {
       transform: perspective(0px) scale(1.1)
   }
-  10% {
+  40% {
       transform: perspective(0px) scale(0.8)
   }
-  50% {
+  70% {
       transform: perspective(0px) scale(1.05)
   }
   100% {
       transform: perspective(0px) scale(1)
+  }
+}
+
+@keyframes messageBackgroundAppear {
+  0% {
+      transform: perspective(0px) scaleY(0)
+  }
+  100% {
+      transform: perspective(0px) scaleY(1)
+  }
+}
+
+@keyframes messageSwitchBounce {
+  0% {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  5% {
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
+  }
+  10% {
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+  }
+  50% {
+    padding-top: 1.1rem;
+    padding-bottom: 1.1rem;
+  }
+  100% {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
   }
 }

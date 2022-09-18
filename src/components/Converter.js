@@ -82,6 +82,11 @@ export default function Converter() {
 
     const [msgAnimState, setMsgAnimState] = useState("")
 
+    // State for if the convert button has been pressed at least once. Used for msg transition animation
+    const [firstPressState, setFirstPressState] = useState(false)
+
+    const [msgSwitchState, setMsgSwitchState] = useState("")
+
 
     // State which defines the message shown to user after converting a value
     const [messageState, setMessageState] = useState({
@@ -250,6 +255,8 @@ export default function Converter() {
                 resultM: conversionRoundedResult,
                 endUnitM: calcState.endUnit,
             })
+            // If container has already been clicked once, then container bounce animation will play
+            changeMessage()
             console.log("!!!!!!!!!!!!!!!!!!!!FUNCTION ROUND RESULT HAS OCCURED!!!!!!!!!!!!!!!!!!!!!!!")
         }
 
@@ -275,6 +282,8 @@ export default function Converter() {
                 resultM: conversionRoundedResult,
                 endUnitM: calcState.endUnit,
             })
+            // If container has already been clicked once, then container bounce animation will play
+            changeMessage()
             console.log("+++++++++++++++++++++++++FUNCTION convertThenRoundResult HAS OCCURED+++++++++++++++++++++++++")
         }
 
@@ -282,15 +291,21 @@ export default function Converter() {
             console.log("NOTHING HERE")
             // Sets the result as an error message which will display when user hasnt typed anything in ingredient field
             setMessageState({ ...messageState, resultM: "Please type and select an ingredient from the list" })
+            // If container has already been clicked once, then container bounce animation will play
+            changeMessage()
         }  
         else if (!ingredientSearch[0][0] || ingredientSearch[0][0].toLowerCase() !== ingredient.toLowerCase()) {
             console.log("NOTHING HERE 2")
             console.log(ingredient)
             // Sets the result as an error message which will display when user's input doesnt match an ingredient
             setMessageState({ ...messageState, resultM: "Please select an ingredient from the list" })
+            // If container has already been clicked once, then container bounce animation will play
+            changeMessage()
         }
         else if (/^\d*\.?\d*$/.test(calcState.amount) === false || calcState.amount === "") {
             setMessageState({ ...messageState, resultM: "Please enter a valid amount number" })
+            // If container has already been clicked once, then container bounce animation will play
+            changeMessage()
         }
         else if (unitState === "volume") {
             // Grabs amount of what user wants to convert entered from amount field
@@ -390,6 +405,35 @@ export default function Converter() {
         console.log(calcState);
         console.log(beforeUnit);
         console.log(afterUnit);
+    }
+
+    function changeMessage() {
+
+        // Defining consts for the html element information from the message container and displayed message
+        const containerHtml = document.getElementsByClassName('resultSuccess');
+        const messageHtml = document.getElementsByClassName('conversionMessage');
+
+        // If check to prevent errors occuring when function loads before HTML loads
+        if (containerHtml[0] && messageHtml[0] && messageHtml[1]) {
+
+            // Defining lets which check if the message container, result message, and error message are hidden
+            let containerHiddenCheck = containerHtml[0].classList.contains('hiddenElement')
+            let resultHiddenCheck = messageHtml[0].classList.contains('hiddenElement')
+            let errorHiddenCheck = messageHtml[1].classList.contains('hiddenElement')
+
+            // Will trigger if message container is visible and if convert button has been pressed at least once
+            if (!containerHiddenCheck && firstPressState === true) {
+                
+                if ((resultHiddenCheck && !errorHiddenCheck) || (!resultHiddenCheck && errorHiddenCheck)) {
+                    console.log("Hidden if triggered")
+
+                    setMsgSwitchState("msgSwitch")
+                }
+            }
+        }
+
+
+        //setMsgSwitchState("msgSwitch")
     }
 
 
@@ -698,14 +742,21 @@ export default function Converter() {
 
                 <div className="resultContainer">
                     <section className={ messageState.resultM !== "" ?
-                    "resultSuccess" :
+                    `resultSuccess ${msgSwitchState}` :
                     "resultSuccess hiddenElement"
                     }
+                    key={ /\d/.test(messageState.resultM) }
                     >
 
-                        <section className={ /\d/.test(messageState.resultM) && /^\d*\.?\d*$/.test(messageState.amountM) ?
-                        "conversionMessage" :
-                        "conversionMessage hiddenElement"
+                        <section className={
+                            // Checks if result contains numbers
+                            /\d/.test(messageState.resultM) &&
+                            // Checks if result has changed from its initial state
+                            messageState.resultM !== "" &&
+                            // Checks if amount is a valid number or fraction (ex: 3.14)
+                            /^\d*\.?\d*$/.test(messageState.amountM) ?
+                            "conversionMessage" :
+                            "conversionMessage hiddenElement"
                         }
                         >
                             <h2 className={`${msgAnimState}1`}>{messageState.amountM} {messageState.startUnitM}</h2>
@@ -714,19 +765,37 @@ export default function Converter() {
                             <h1 className={`${msgAnimState}4`}>is</h1>
                             <h2
                             className={`${msgAnimState}5`}
-                            onAnimationEnd={ () => {setMsgAnimState("")}}
-
-                            >{messageState.resultM} {messageState.endUnitM}</h2>
+                            onAnimationEnd={ () => {
+                                setMsgAnimState("")
+                                setFirstPressState(true)
+                            }}
+                            >
+                                {messageState.resultM} {messageState.endUnitM}
+                            </h2>
                         </section>
 
                         <section className={
+                            // Checks if amount isnt a valid number or fraction (ex: 3.14)
                             /^\d*\.?\d*$/.test(messageState.amountM) === false ||
-                            /\d/.test(messageState.resultM) === false ?
+                            (   
+                                // Checks if result has changed from its initial state
+                                messageState.resultM !== "" &&
+                                // Checks if result contains numbers
+                                /\d/.test(messageState.resultM) === false
+                            ) ?
                             "conversionMessage" :
                             "conversionMessage hiddenElement"
                         }
                         >
-                        <h2>{messageState.resultM}</h2>
+                        <h2
+                        className={`${msgAnimState}1`}
+                        onAnimationEnd={ () => {
+                            setMsgAnimState("")
+                            setFirstPressState(true)
+                        }}
+                        >
+                            {messageState.resultM}
+                        </h2>
                         </section>
 
 
