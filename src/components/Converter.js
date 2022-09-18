@@ -813,7 +813,21 @@ export default function Converter() {
                             "conversionMessage hiddenElement"
                         }
                         >
-                            <h2 className={`${msgAnimState}1`}>{messageState.amountM} {messageState.startUnitM}</h2>
+                            <h2 className={`${msgAnimState}1`}>
+                                {messageState.amountM}&nbsp;
+                                {
+                                // If amount is higher or lower than 1, then display message as normal
+                                (messageState.amountM > 1 || messageState.amountM < 1) ?
+                                messageState.startUnitM :
+                                
+                                // If amount is equal to 1, remove plural from start unit (case for (US) units)
+                                messageState.startUnitM.includes("(US)") ?
+                                messageState.startUnitM.replaceAll("s ", " ") :
+                                
+                                // If amount is equal to 1, remove plural from start unit (case for all other units)
+                                messageState.startUnitM.slice(0, -1) 
+                                }
+                            </h2>
                             <h1 className={`${msgAnimState}2`}>of</h1>
                             <h2 className={`${msgAnimState}3`}>{messageState.ingredientM}</h2>
                             <h1 className={`${msgAnimState}4`}>is</h1>
@@ -821,9 +835,25 @@ export default function Converter() {
                             className={`${msgAnimState}5`}
                             onAnimationEnd={ () => {
                                 setMsgAnimState("")
+                                console.log("plural check is " + messageState.amountM)
+                                console.log("plural check2 is " + typeof messageState.amountM)
                             }}
                             >
-                                {messageState.resultM} {messageState.endUnitM}
+                                {messageState.resultM}&nbsp;
+
+                                {
+                                // If result is higher or lower than 1, then display message as normal
+                                (messageState.resultM > 1 || messageState.resultM < 1) ?
+                                messageState.endUnitM :
+                                
+                                // If result is equal to 1, remove plural from end unit (case for (US) units)
+                                messageState.endUnitM.includes("(US)") ?
+                                messageState.endUnitM.replaceAll("s ", " ") :
+                                
+                                // If result is equal to 1, remove plural from end unit (case for all other units)
+                                messageState.endUnitM.slice(0, -1) 
+                                }
+
                             </h2>
                         </section>
 
