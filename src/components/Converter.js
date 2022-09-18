@@ -76,12 +76,13 @@ export default function Converter() {
 
     const [ingredientState, setIngredientState] = useState("");
 
+    const [ingredientSelectState, setIngredientSelectState] = useState("");
+
     const [clickedState, setClickedState] = useState({start: "", ingredient: "", end: ""});
 
     const [bounceState, setBounceState] = useState({switch: "", convert: ""})
 
     const [msgAnimState, setMsgAnimState] = useState("")
-
 
     const [msgSwitchState, setMsgSwitchState] = useState("")
 
@@ -540,7 +541,7 @@ export default function Converter() {
 
                             <p
                             tabIndex="1"
-                            className={`unitDropdown ${clickedState.start}`}
+                            className={`unitDropdown ${clickedState.start} ${bounceState.switch}`}
                             id="startUnit"
                             value={startUnit}
 
@@ -562,7 +563,7 @@ export default function Converter() {
                                 {startUnit}
                             </p>
 
-                            <span className="dropdownArrow backfaceProp">▼</span>
+                            <span className={`dropdownArrow backfaceProp ${bounceState.switch}`}>▼</span>
 
                             <ul
                             className={`unitDropdownList ${startUnitState}`}
@@ -608,6 +609,7 @@ export default function Converter() {
                             <br></br>
                             <input
                                 id='ingredient'
+                                className={ingredientSelectState}
                                 name='ingredient'
                                 value={ingredient}
                                 onChange={
@@ -666,6 +668,7 @@ export default function Converter() {
                                     setIngredientState("hiddenElement") 
                                     setClickedState({ ...clickedState, ingredient: ""})
                                 }}
+                                onAnimationEnd={() => {setIngredientSelectState("")}}
                                 autoComplete="off"
                                 readOnly={false}
                             />
@@ -690,7 +693,7 @@ export default function Converter() {
                                 key={item[0]}
                                 onMouseDown={ () => {
                                     setCalcState({ ...calcState, ingredient: item[0] })
-
+                                    setIngredientSelectState("bounceClick")
                                 }}
                                 >
                                     {item[0]}
@@ -705,7 +708,7 @@ export default function Converter() {
 
                             <p
                             tabIndex="2"
-                            className={`unitDropdown ${clickedState.end}`}
+                            className={`unitDropdown ${clickedState.end} ${bounceState.switch}`}
                             id="endUnit"
                             value={endUnit}
 
@@ -733,7 +736,7 @@ export default function Converter() {
                                 // Checks if ingredient input has been clicked and if the dropdown is visible, removes backfaceProp if so
                                 (clickedState.ingredient === "clickedInput" && ingredientSearch[0]) ?
                                 `dropdownArrow` :
-                                `dropdownArrow backfaceProp`
+                                `dropdownArrow backfaceProp ${bounceState.switch}`
                             }
                             >
                                 ▼
