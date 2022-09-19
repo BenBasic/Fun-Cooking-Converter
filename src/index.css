@@ -8,15 +8,21 @@
   --bottom-border-list: 0.1rem solid #1d1b1b;
 }
 
+html {
+  /* Without this property in html, firefox will still show a scrollbar */
+  scrollbar-width: none;  /* Firefox */
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+  font-weight: 300;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--palette-color-contrast);
-  background-color: rgb(46, 46, 46);
+  background-color: #0F1526;
   /* Hide scrollbar for IE, Edge and Firefox */
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
@@ -62,6 +68,8 @@ code {
 }
 
 .formTitle {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
   text-align: center;
 }
 
@@ -78,6 +86,8 @@ code {
 
 .switchButton, .submitButton {
   color: var(--palette-color-contrast);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
   background-color: var(--palette-color-accent);
   border-radius: 1rem;
   border-style: none;
@@ -102,6 +112,10 @@ code {
   /* This seems to cause text blurring on startUnit list on mobile sizes */
   margin-left: auto;
   margin-right: auto;
+}
+
+#conversion-form label {
+  font-weight: 600;
 }
 
 .startUnitDiv, .ingredientDiv, .endUnitDiv {
@@ -183,7 +197,10 @@ input:focus {
 
   /* Hide scrollbar for IE, Edge and Firefox */
   -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+
+  /* Firefox had z-index issues during animation with below property, so its commented out
+  but the below commented out property makes the scrollbar invisible for firefox */
+  /* scrollbar-width: none; */
   
   list-style: none;
   margin-top: 0rem;
@@ -218,11 +235,15 @@ input:focus {
 
 .unitDropdownList li:last-child, .ingredientDropdown li:last-child {
   border-bottom: none;
-  border-radius: 0rem 0rem 0.5rem 0.5rem;
+
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
 }
 
 .unitDropdownList li:first-child, .ingredientDropdown li:first-child {
-  border-radius: 0.5rem 0.5rem 0rem 0rem;
+
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
 }
 
 .unitItem:hover, .ingredientItem:hover {
@@ -231,7 +252,8 @@ input:focus {
 
 .resultContainer {
   text-align: center;
-  
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
 }
 
 .resultSuccess {
@@ -413,10 +435,90 @@ input:focus {
   }
 }
 
-@media screen and (max-width: 287px) {
+@media screen and (max-width: 306px) {
   
   /* Sets text inside of switch button to stay on one line rather than multiple when on smaller screen sizes */
   .switchButton {
     padding: 0.5rem 0.6rem 0.5rem 0.6rem;
+  }
+}
+
+@media screen and (max-width: 281px) {
+  
+  /* Sets text inside of switch button to stay on one line rather than multiple when on smaller screen sizes */
+  .switchButton {
+    padding: 0.5rem 0.3rem 0.5rem 0.3rem;
+  }
+}
+
+@media screen and (max-height: 830px) {
+  /* Sets dropdown list to a smaller height so it isnt off screen at smaller screen heights */
+  .unitDropdownList {
+    max-height: 40vh;
+  }
+}
+
+@media screen and (max-height: 800px) {
+  /* Sets dropdown list to a smaller height so it isnt off screen at smaller screen heights */
+  .unitDropdownList {
+    max-height: 36vh;
+  }
+}
+
+@media screen and (max-height: 750px) {
+  /* Sets dropdown list to a smaller height so it isnt off screen at smaller screen heights */
+  .unitDropdownList {
+    max-height: 33vh;
+  }
+  .ingredientDropdown {
+    max-height: 38vh;
+  }
+}
+
+@media screen and (max-height: 700px) {
+  /* Sets dropdown list to a smaller height so it isnt off screen at smaller screen heights */
+  .unitDropdownList {
+    max-height: 30vh;
+  }
+  .ingredientDropdown {
+    max-height: 35vh;
+  }
+}
+
+@media screen and (max-height: 670px) {
+  /* Sets dropdown list to a smaller height so it isnt off screen at smaller screen heights */
+  .unitDropdownList {
+    max-height: 28vh;
+  }
+}
+
+@media screen and (max-height: 650px) {
+  /* Sets dropdown list to a smaller height so it isnt off screen at smaller screen heights */
+  .unitDropdownList {
+    max-height: 25vh;
+  }
+}
+
+@media screen and (max-height: 624px) {
+  /* Sets dropdown list to a smaller height so it isnt off screen at smaller screen heights */
+  .unitDropdownList {
+    max-height: 22vh;
+  }
+}
+
+@media screen and (max-height: 610px) {
+  /* Sets dropdown list to a smaller height so it isnt off screen at smaller screen heights */
+  .ingredientDropdown {
+    max-height: 32vh;
+  }
+}
+
+@media screen and (max-height: 600px) {
+  /* Sets dropdown list to a smaller height so it isnt off screen at smaller screen heights */
+  .unitDropdownList {
+    max-height: 19vh;
+  }
+  .ingredientDropdown {
+    max-height: 28vh;
   }
 }

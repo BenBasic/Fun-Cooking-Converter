@@ -522,7 +522,7 @@ export default function Converter() {
                     <form id='conversion-form' onSubmit={handleSubmit}>
 
                         <div className="amountDiv">
-                            <label htmlFor='amount'>Amount:</label>
+                            <label htmlFor='amount'>Amount</label>
                             <br></br>
                             <input
                                 id='amount'
@@ -538,7 +538,7 @@ export default function Converter() {
                         </div>
 
                         <div className="startUnitDiv">
-                            <label htmlFor='startUnit'>Unit:</label>
+                            <label htmlFor='startUnit'>Unit</label>
                             <br></br>
 
                             <p
@@ -607,7 +607,7 @@ export default function Converter() {
                                 // Prevents clicking label from focusing input (preventing re-fading list)
                                 e.preventDefault()
                             }}
-                            >Ingredient:</label>
+                            >Ingredient</label>
                             <br></br>
                             <input
                                 id='ingredient'
@@ -705,7 +705,7 @@ export default function Converter() {
                         </div>
 
                         <div className="endUnitDiv">
-                            <label htmlFor='endUnit'>Unit:</label>
+                            <label htmlFor='endUnit'>Unit</label>
                             <br></br>
 
                             <p
