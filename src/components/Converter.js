@@ -86,6 +86,8 @@ export default function Converter() {
 
     const [msgSwitchState, setMsgSwitchState] = useState("")
 
+    const [disclaimerMoveState, setDisclaimerMoveState] = useState({ result: "disclaimerMoveAnim", error: "disclaimerMoveAnimError"})
+
 
     // State which defines the message shown to user after converting a value
     const [messageState, setMessageState] = useState({
@@ -884,7 +886,29 @@ export default function Converter() {
                     </section>
                 </div>
 
-                <div className="disclaimerInfo">
+                <div
+                className={
+                /^\d*\.?\d*$/.test(messageState.amountM) &&
+                /\d/.test(messageState.resultM) &&
+                messageState.resultM !== "" ?
+
+                `disclaimerInfo ${disclaimerMoveState.result}` :
+
+                // Checks if amount isnt a valid number or fraction (ex: 3.14)
+                /^\d*\.?\d*$/.test(messageState.amountM) === false ||
+                (   
+                    // Checks if result has changed from its initial state
+                    messageState.resultM !== "" &&
+                    // Checks if result contains numbers
+                    /\d/.test(messageState.resultM) === false
+                ) ?
+
+                `disclaimerInfo ${disclaimerMoveState.error}` :
+
+                `disclaimerInfo`
+                }
+                onAnimationEnd={ () =>{setDisclaimerMoveState({ ...disclaimerMoveState, result: "", error: "" })} }
+                >
                     <h3>Note</h3>
                     <p>Characteristics of food change according to humidity, temperature, and how well packed it is. Some values may be rounded.</p>
                     <h4>Density Reference</h4>
