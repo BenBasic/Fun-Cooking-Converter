@@ -884,6 +884,34 @@ export default function Converter() {
                     </section>
                 </div>
 
+                <div className="disclaimerInfo">
+                    <h3>Note</h3>
+                    <p>Characteristics of food change according to humidity, temperature, and how well packed it is. Some values may be rounded.</p>
+                    <h4>Density Reference</h4>
+                    <a
+                    className="sourceButton"
+                    href='https://www.fao.org/3/ap815e/ap815e.pdf'
+                    target="_blank" rel="noreferrer"
+                    >
+                        FAO/INFOODS Density Database version 2
+                    </a>
+                    <h4 className="copyrightMe">Copyright © 2022 Benjamin Basic</h4>
+                    <a
+                    className="myLinkButton"
+                    href='https://github.com/BenBasic'
+                    target="_blank" rel="noreferrer"
+                    >
+                        GitHub
+                    </a>
+                    <a
+                    className="myLinkButton"
+                    href='https://www.linkedin.com/in/benbasic/'
+                    target="_blank" rel="noreferrer"
+                    >
+                        LinkedIn
+                    </a>
+                </div>
+
             </div>
 
         </>
