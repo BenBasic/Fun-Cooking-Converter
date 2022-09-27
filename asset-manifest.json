@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/Fun-Cooking-Converter/static/css/main.5a54ad74.css",
-    "main.js": "/Fun-Cooking-Converter/static/js/main.1848285a.js",
+    "main.js": "/Fun-Cooking-Converter/static/js/main.c3621e14.js",
     "static/js/787.3882111f.chunk.js": "/Fun-Cooking-Converter/static/js/787.3882111f.chunk.js",
     "index.html": "/Fun-Cooking-Converter/index.html",
     "main.5a54ad74.css.map": "/Fun-Cooking-Converter/static/css/main.5a54ad74.css.map",
-    "main.1848285a.js.map": "/Fun-Cooking-Converter/static/js/main.1848285a.js.map",
+    "main.c3621e14.js.map": "/Fun-Cooking-Converter/static/js/main.c3621e14.js.map",
     "787.3882111f.chunk.js.map": "/Fun-Cooking-Converter/static/js/787.3882111f.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.5a54ad74.css",
-    "static/js/main.1848285a.js"
+    "static/js/main.c3621e14.js"
   ]
 }
