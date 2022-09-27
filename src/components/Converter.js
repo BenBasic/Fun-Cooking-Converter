@@ -3,6 +3,7 @@ import IngredientList from './IngredientList';
 
 export default function Converter() {
 
+    // List of volume units usable for conversion
     const volumeList = [
         "Liters",
         "Milliliters",
@@ -15,6 +16,7 @@ export default function Converter() {
         "Teaspoons (US)",
     ];
 
+    // List of weight units usable for conversion
     const weightList = [
         "Grams",
         "Kilograms",
@@ -22,7 +24,7 @@ export default function Converter() {
         "Ounces (US)",
     ];
 
-    // Calculation to multiply by for gram related conversions (volume to gram, or gram to kilogram)
+    // [VOLUME START UNIT] Calculation to multiply by for gram related conversions (volume to gram, or gram to kilogram)
     const calcList = {
         Liters: 1000,
         Milliliters: 1,
@@ -39,6 +41,7 @@ export default function Converter() {
         OuncesUS: 0.035274,
     }
 
+    // [WEIGHT START UNIT] Calculation to multiply by for gram related conversions (weight to gram, or gram to volume)
     const calcListWeight = {
         Liters: 0.001,
         Milliliters: 1,
@@ -66,26 +69,37 @@ export default function Converter() {
     // Assigning the initial unitState to volume, will change depending on if user wants volume>weight or weight>volume
     const [unitState, setUnitState] = useState("volume");
 
+    // Assigning the initial ConvertToUnitState to weight, will change depending on if user wants volume>weight or weight>volume
     const [convertToUnitState, setConvertToUnitState] = useState("weight");
 
+    // Destructuring the properties of calcState
     const { amount, startUnit, ingredient, endUnit } = calcState;
 
+    // Assigning startUnitState to the hiddenElement class, will change state between invisible and visible when opening dropdown menu
     const [startUnitState, setStartUnitState] = useState("hiddenElement");
 
+    // Assigning endUnitState to the hiddenElement class, will change state between invisible and visible when opening dropdown menu
     const [endUnitState, setEndUnitState] = useState("hiddenElement");
 
+    // Assigning ingredientState to empty value, will change state between invisible and visible when focusing/typing on ingredient input field
     const [ingredientState, setIngredientState] = useState("");
 
+    // Assigning ingredientSelectState to empty value, will change state to display bouncing animation when user selects item from ingredient list
     const [ingredientSelectState, setIngredientSelectState] = useState("");
 
+    // Assigning clickedState to an object of empty values, will change each property value to a class name once focused/selected, making it change appearance
     const [clickedState, setClickedState] = useState({start: "", ingredient: "", end: ""});
 
+    // Assigning bounceState to an object of empty values, will change each property value to a class name when either switch or convert buttons are clicked to play animation
     const [bounceState, setBounceState] = useState({switch: "", convert: ""})
 
+    // Assigning msgAnimState to an empty value, will change value to make success/error message appear when submit button is pressed
     const [msgAnimState, setMsgAnimState] = useState("")
 
+    // Assigning msgSwitchState to an empty value, will change value when message switches between success and error types after a first result
     const [msgSwitchState, setMsgSwitchState] = useState("")
 
+    // Assigning disclaimerMoveState to an object with class values, these will control the animation which changes the disclaimer position when a message is visible
     const [disclaimerMoveState, setDisclaimerMoveState] = useState({ result: "disclaimerMoveAnim", error: "disclaimerMoveAnimError"})
 
 
@@ -98,19 +112,13 @@ export default function Converter() {
         endUnitM: "",
     });
 
-    // const handleChange = event => {
-    //     setIngredientSearch(event.target.value);
-    // };
-
     // Array of ingredients and their density's from the IngredientList component
     let infoList = IngredientList();
 
+    // Empty array which will be populated by the ingredients in IngredientList component
     let ingredientInfoArray = [];
 
-    console.log(infoList.list);
-
-    console.log(typeof infoList.list);
-
+    // For loop which will push all objects from IngredientList component into the ingredientInfoArray
     for (var key in infoList.list) {
         if (infoList.list.hasOwnProperty(key)) {
             ingredientInfoArray.push([
@@ -120,10 +128,10 @@ export default function Converter() {
         }
     };
 
-    console.log(ingredientInfoArray[0][0])
-
+    // Assigning ingredientSearch to an empty array, will populate when user types characters which match to ingredients in the ingredient list
     const [ingredientSearch, setIngredientSearch] = useState([]);
 
+    // useEffect which controls the population of ingredient list items in the ingredient drop down
     useEffect(() => {
         // If the search field is empty, set the search array to empty to display no items
         if (ingredient === "") {
@@ -139,97 +147,100 @@ export default function Converter() {
         }
     }, [ingredient]);
 
-    console.log(ingredientInfoArray);
 
-
-    /* Originally used 236.588236 for cup but noticed results werent lining up to other calculators until
-    using a value of 236.58823648491, this seems to be the correct value but will continue to look into it
-    */
+    // [VOLUME START UNIT] Reference values for unit calculations
 
     // Gallons (US) to grams
     // grams = gallons × 3,785.41178 × ingredient density
-    const gallonGramCalc = 3785.41178;
+    // gallonGramCalc = 3785.41178;
 
     // Quarts (US) to grams
     // grams = quarts × 946.352946 × ingredient density
-    const quartGramCalc = 946.352946;
+    // quartGramCalc = 946.352946;
 
     // Pints (US) to grams
     // grams = pints × 473.176473 × ingredient density
-    const pintGramCalc = 473.176473;
+    // pintGramCalc = 473.176473;
 
     // Cups (US) to grams
     // grams = cups × 236.588236 × ingredient density
-    const cupGramCalc = 236.588236;
+    // cupGramCalc = 236.588236;
 
     // Fluid ounces (US) to grams
     // grams = fluid ounces × 29.57353 × ingredient density
-    const flOzGramsCalc = 29.57353;
+    // flOzGramsCalc = 29.57353;
 
     // Liters to grams
     // grams = liters × 1000 × ingredient density
-    const literGramCalc = 1000;
+    // literGramCalc = 1000;
 
     // Tablespoons (US) to grams
     // grams = tablespoons × 14.786765 × ingredient density
-    const tablespGramCalc = 14.786765;
+    // tablespGramCalc = 14.786765;
 
     // Teaspoons (US) to grams
     // grams = teaspoons × 4.928922 × ingredient density
-    const tspGramCalc = 4.928922;
+    // tspGramCalc = 4.928922;
 
     // Milliliters to grams
     // grams = milliliters × ingredient density
-    const mlGramCalc = 1;
+    // mlGramCalc = 1;
 
-
+    
+    // [WEIGHT START UNIT] Reference values for unit calculations
 
     // Grams to kilograms
     // kilograms = grams x 0.001
-    const gToKg = 0.001;
+    // gToKg = 0.001;
 
     // Grams to pounds
     // pounds = grams × 0.002205
-    const gToLb = 0.002205;
+    // gToLb = 0.002205;
 
     // Grams to ounces
     // ounces = grams × 0.035274
-    const gToOz = 0.035274;
+    // gToOz = 0.035274;
+
+
+    // Formula reference for density based calculation
 
     // Volume = Mass ÷ Density
     // (5grams ÷ 0.7) = 7.142857 ml
     // Example: Millileters = amount of grams ÷ ingredient density
 
+    // Function which converts weight to volume by dividing the unit value by the density value (intended for gram/density)
     function unitToVolume(unit, density) {
 
         let result = unit / density;
         return result;
     };
 
-
+    /* Function which converts volume to weight by multiplying the unit value by the calculation value
+    and then multiplying by the density value (intended for ml x calculation x density)
+    */
     function unitToWeight(unit, calculation, density) {
 
         let result = unit * calculation * density;
         return result;
     };
 
+    /* Function which converts a weight value to another weight value by multiplying the weight value by
+    the weightCalc. For example this would convert grams to kilograms (intended for gram x weightCalc)
+    */
     function weightToWeight(weight, weightCalc) {
 
         let result = weight * weightCalc;
         return result;
     };
 
-    let testMeasure = unitToWeight(1, cupGramCalc, 1.38);
-
-    console.log(unitToWeight(1, cupGramCalc, 1.38));
-    console.log(weightToWeight(testMeasure, gToKg));
-
-    console.log(calcState)
-
+    /* Event handler function which will convert the start unit to the end unit value and display a message based on
+    if its a successful conversion or an error based on different error conditions
+    */
     const handleSubmit = (e) => {
         // Preventing the page from refreshing which is the default behaviour of form submit
         e.preventDefault();
 
+        // Defining empty variables which will have values assigned to them based on different conditions met in the function
         let convertUnit;
         let convertStartUnit;
         let convertEndUnit;
@@ -239,12 +250,10 @@ export default function Converter() {
         let conversionResult;
         let conversionRoundedResult;
         let converstionNewWeightResult;
-        let converstionNewWeightResultAgain;
-        console.log("INGREDIENT SEARCH IS =========")
-        console.log(ingredientSearch)
 
         // Function which will round the final result
         function roundResult(sourceResult) {
+            
             // Result is rounded, will only show up to the 2nd decimal point (ex: 23.63)
             conversionRoundedResult = sourceResult.toFixed(2);
 
@@ -279,6 +288,7 @@ export default function Converter() {
 
         // Function which will first convert one unit to another and then round the final result
         function convertThenRoundResult(list, listItem, sourceResult) {
+
             // Grabs the type of calcList and then finds the property value of the listItem
             convertCalcWeight = list[listItem];
 
@@ -286,10 +296,6 @@ export default function Converter() {
             converstionNewWeightResult = weightToWeight(sourceResult, convertCalcWeight);
             // Result is then rounded, will only show up to the 2nd decimal point (ex: 23.63)
             conversionRoundedResult = converstionNewWeightResult.toFixed(2);
-
-            console.log("NEW WEIGHT IS !!!!!!!!!");
-            console.log(converstionNewWeightResult);
-            console.log(conversionRoundedResult);
 
             // Checks if at least one result has been given from the converter and if previous result was unsuccessful
             if (/\d/.test(messageState.resultM) === false && messageState.resultM !== "") {
@@ -320,6 +326,7 @@ export default function Converter() {
             }
         }
 
+        // Function which will display an error message if certain conditions arent met
         function messageError(errorMsg) {
             // Checks if at least one result has been given from the converter and if previous result was successful
             if (/\d/.test(messageState.resultM) && messageState.resultM !== "") {
@@ -335,28 +342,33 @@ export default function Converter() {
 
         }
 
+        // Checks if the ingredientSearch has any items in the array
         if (!ingredientSearch[0]) {
-            console.log("NOTHING HERE")
 
             // Sets the result as an error message which will display when user hasnt typed anything in ingredient field
             messageError("Please type and select an ingredient from the list")
 
         }  
+
+        // Checks if the characters typed in the ingredient input field match the top ingredient list item
         else if (!ingredientSearch[0][0] || ingredientSearch[0][0].toLowerCase() !== ingredient.toLowerCase()) {
-            console.log("NOTHING HERE 2")
-            console.log(ingredient)
 
             // Sets the result as an error message which will display when user's input doesnt match an ingredient
             messageError("Please select an ingredient from the list")
 
         }
+
+        // Checks if the amount is a valid number/fraction or if the amount field is empty
         else if (/^\d*\.?\d*$/.test(calcState.amount) === false || calcState.amount === "") {
 
             // Sets the result as an error message which will display when user's amount input isnt a valid number or fraction (ex: 3.14)
             messageError("Please enter a valid amount number")
 
         }
+
+        // Checks if the starting unit for conversion is a volume unit
         else if (unitState === "volume") {
+
             // Grabs amount of what user wants to convert entered from amount field
             convertUnit = calcState.amount;
             // Grabs density value of the ingredient the user is attempting to convert
@@ -366,19 +378,17 @@ export default function Converter() {
             // Grabs the value of the related start unit (ex: CupsUS has value of 236.588236)
             convertCalc = calcList[convertStartUnit];
 
-
-            console.log("CONVERT THING IS")
-            console.log(convertUnit)
-            console.log(convertDensity)
-            console.log(convertCalc)
-
+            // Assigning conversionResult to the converted value
             conversionResult = unitToWeight(convertUnit, convertCalc, convertDensity);
 
+            // Checks if the end unit is grams
             if (calcState.endUnit === "Grams") {
+
                 // Calls the roundResult function, rounds result and sets resultState
                 roundResult(conversionResult);
 
             } else {
+
                 // Grabs the ending unit (ex: Pound (US)) and converts it to name style of calcList object names (ex: CupsUS)
                 convertEndUnit = calcState.endUnit.replaceAll(/[ ()]/g, "");
                 // Calls the convertThenRoundResult function, converts to new unit then rounds result and sets resultState
@@ -388,6 +398,7 @@ export default function Converter() {
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
 
+        // Checks if the starting unit for conversion is a weight unit
         else if (unitState === "weight") {
             // Grabs amount of what user wants to convert entered from amount field
             convertUnit = calcState.amount;
@@ -398,24 +409,22 @@ export default function Converter() {
             // Grabs the ending unit (ex: Pound (US)) and converts it to name style of calcList object names (ex: CupsUS)
             convertEndUnit = calcState.endUnit.replaceAll(/[ ()]/g, "");
 
-
-            console.log("CONVERT THING IS")
-            console.log(convertUnit)
-            console.log(convertDensity)
-
+            // Checks if the starting unit is grams
             if (calcState.startUnit === "Grams") {
 
                 // This converts the grams into ml
                 conversionResult = unitToVolume(convertUnit, convertDensity);
 
+                // Checks if the end unit is milliliters
                 if (calcState.endUnit === "Milliliters") {
+
                     // Calls the roundResult function, rounds result and sets resultState
                     roundResult(conversionResult);
 
                 } else {
+
                     // Calls the convertThenRoundResult function, converts to new unit then rounds result and sets resultState
                     convertThenRoundResult(calcListWeight, convertEndUnit, conversionResult)
-                    
                 }
 
             } else {
@@ -427,40 +436,35 @@ export default function Converter() {
                 // Devides the new amount of grams by the ingredient density, resulting in converted volume
                 conversionResult = unitToVolume(converstionNewWeightResult, convertDensity);
 
+                // Checks if the end unit is milliliters
                 if (calcState.endUnit === "Milliliters") {
 
                     // Calls the roundResult function, rounds result and sets resultState
                     roundResult(conversionResult);
 
                 } else {
+
                     // Calls the convertThenRoundResult function, converts to new unit then rounds result and sets resultState
                     convertThenRoundResult(calcListWeight, convertEndUnit, conversionResult)
-
                 }
             }
         }
     };
 
-    console.log("SEARCH STATE")
-    //console.log(ingredientSearch[0][0])
-    console.log(calcList['Liters'])
-
     // Function which handles switching the conversion types between volume and weight
     function changeMode() {
+
+        // Assigning variables to the elements matching the intended id values
         const beforeUnit = document.querySelector('#startUnit');
         const afterUnit = document.querySelector('#endUnit');
+
+        // Setting a new calcState with the start and end units swapped
         setCalcState({ ...calcState, startUnit: afterUnit.innerHTML, endUnit: beforeUnit.innerHTML, });
         setBounceState({ ...bounceState, switch: "bounceClick"})
-        console.log("UNIT SWAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPPPPP");
-        console.log(calcState);
-        console.log(beforeUnit);
-        console.log(afterUnit);
     }
 
     // Function which handles message container animation when switching between result and error message types
     function changeMessage() {
-
-        console.log("RUNNING")
 
         // Defining consts for the html element information from the message container and displayed message
         const containerHtml = document.getElementsByClassName('resultSuccess');
@@ -479,7 +483,6 @@ export default function Converter() {
                 
                 // Will trigger if one of the result or error messages are set to hidden while other is visible
                 if ((resultHiddenCheck && !errorHiddenCheck) || (!resultHiddenCheck && errorHiddenCheck)) {
-                    console.log("Hidden if triggered")
 
                     // Adds animation class to the message container so it animates when switching message type
                     setMsgSwitchState("msgSwitch")
@@ -487,13 +490,6 @@ export default function Converter() {
             }
         }
     }
-
-
-
-    console.log("CHECKING FOR CLASS REF")
-    console.log(ingredientSearch)
-    console.log(document.querySelector('#startUnit'))
-    console.log(document.querySelector('#endUnit'))
    
 
     return (
@@ -837,8 +833,6 @@ export default function Converter() {
                             className={`${msgAnimState}5`}
                             onAnimationEnd={ () => {
                                 setMsgAnimState("")
-                                console.log("plural check is " + messageState.amountM)
-                                console.log("plural check2 is " + typeof messageState.amountM)
                             }}
                             >
                                 {messageState.resultM}&nbsp;
