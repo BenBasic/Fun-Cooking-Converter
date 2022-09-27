@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function List() {
 
     const list = [
@@ -70,6 +68,8 @@ export default function List() {
         {name: "Milk, acidophilus cultured", density: 1.01},
         {name: "Milk, buttermilk", density: 1.022},
         {name: "Milk, chocolate milk, skimmed", density: 1.056},
+        {name: "Milk, coconut", density: 1.025},
+        {name: "Milk, coconut (powdered)", density: 0.406},
         {name: "Milk, goat, whole", density: 1.08},
         {name: "Milk, liquid, skimmed", density: 1.033},
         {name: "Milk, liquid, partially skimmed", density: 1.034},
@@ -82,6 +82,7 @@ export default function List() {
         {name: "Buttermilk, dried", density: 0.5},
         {name: "Casein", density: 0.58},
         {name: "Cheese, emmentaler, grated", density: 0.34},
+        {name: "Cream cheese", density: 0.951},
         {name: "Cream, 9% fat", density: 1.017},
         {name: "Cream, 13% fat", density: 1.013},
         {name: "Cream, 38% fat", density: 0.984},
@@ -100,6 +101,7 @@ export default function List() {
 
         // Oils
 
+        {name: "Oil, nutmeg butter", density: 0.921},
         {name: "Oil, palmoil", density: 0.89},
         {name: "Oil, sunflower", density: 0.96},
         {name: "Oil, vegetable, coconut", density: 0.924},
@@ -115,11 +117,14 @@ export default function List() {
         {name: "Lard", density: 0.919},
         {name: "Mayonnaise, light", density: 1},
         {name: "Mayonnaise, traditional", density: 0.91},
+        {name: "Peanut butter", density: 1.01},
         {name: "Solid vegetable fat kimbo", density: 0.6},
         {name: "Solid vegetable fat rina", density: 0.67},
 
         // Cereal and cereal products
 
+        {name: "All Purpose Flour", density: 0.507},
+        {name: "Almond Flour", density: 0.406},
         {name: "Barley", density: 0.62},
         {name: "Barley, flour", density: 0.61},
         {name: "Barley, ground", density: 0.40},
@@ -132,6 +137,7 @@ export default function List() {
         {name: "Barley, scoured", density: 0.66},
         {name: "Barley, whole", density: 0.65},
         {name: "Breadcrumbs", density: 0.45},
+        {name: "Breadcrumbs, panko", density: 0.237},
         {name: "Buckwheat, bran", density: 0.25},
         {name: "Buckwheat, flour", density: 0.66},
         {name: "Buckwheat, whole", density: 0.63},
@@ -147,6 +153,8 @@ export default function List() {
         {name: "Oats, ground", density: 0.46},
         {name: "Oats, hulls", density: 0.13},
         {name: "Oats, rolled", density: 0.34},
+        {name: "Quinoa, cooked", density: 0.782},
+        {name: "Quinoa, raw", density: 0.719},
         {name: "Rice", density: 0.72},
         {name: "Rice, boiled", density: 0.73},
         {name: "Rice, boiled with fat", density: 0.70},
@@ -204,6 +212,7 @@ export default function List() {
         // Nuts and seeds
 
         {name: "Almonds", density: 0.46},
+        {name: "Almond Meal", density: 0.423},
         {name: "Cashews", density: 0.5},
         {name: "Coconut Chips", density: 0.61},
         {name: "Flaxseed", density: 0.7},
@@ -230,10 +239,13 @@ export default function List() {
         {name: "Cauliflower, boiled", density: 0.45},
         {name: "Chili, green", density: 0.5},
         {name: "Chili, red", density: 0.5},
+        {name: "Chili, red, flakes", density: 0.487},
+        {name: "Coriander (cilantro) leaves, raw", density: 0.068},
         {name: "Corn/maize, green, sweet corn, boiled", density: 0.73},
         {name: "Corn/maize, green, sweet corn, raw", density: 0.61},
         {name: "French green beans", density: 0.53},
         {name: "Fresh green peas (minji)", density: 0.73},
+        {name: "Ginger root, raw", density: 0.406},
         {name: "Managu, leaves, raw", density: 0.2},
         {name: "Olives, green, with stone", density: 0.65},
         {name: "Onions, chopped", density: 0.22},
@@ -247,6 +259,7 @@ export default function List() {
         {name: "Spinach, leaves, raw", density: 0.08},
         {name: "Sweet pepper, raw, cubes", density: 0.51},
         {name: "Sweet pepper, raw, half rings", density: 0.39},
+        {name: "Tomato paste", density: 0.951},
 
         // Legumes
 
@@ -272,14 +285,32 @@ export default function List() {
         {name: "Soybean, boiled with fat", density: 0.70},
 
         // Herbs and spices
-
+        
+        {name: "Basil", density: 0.085},
+        {name: "Chives, raw", density: 0.203},
         {name: "Cinnamon, powder", density: 0.56},
         {name: "Clover, seed", density: 0.77},
+        {name: "Fennel, seed (whole)", density: 0.392},
         {name: "Garlic, flakes", density: 0.35},
         {name: "Garlic, powder", density: 0.32},
+        {name: "Ginger, ground", density: 0.352},
+        {name: "Nutmeg, ground", density: 0.473},
+        {name: "Oregano, dried", density: 0.203},
+        {name: "Paprika", density: 0.46},
+        {name: "Parsley, dried", density: 0.108},
+        {name: "Pepper, black, ground", density: 0.568},
         {name: "Sage, leaves", density: 0.29},
         {name: "Spice, barbecue", density: 0.48},
         {name: "Spice, blend", density: 0.58},
+        {name: "Thyme, dried, ground", density: 0.291},
+        {name: "Thyme, leaves", density: 0.243},
+        {name: "Thyme, leaves, dried", density: 0.183},
+        {name: "Turmeric, ground", density: 0.636},
+        {name: "Turmeric, powder", density: 0.406},
+        {name: "Vinegar", density: 0.972},
+        {name: "Vinegar, apple cider", density: 0.972},
+        {name: "Vinegar, balsamic", density: 0.973},
+        {name: "Vinegar, rice", density: 0.972},
 
         // Egg and egg products
 
@@ -293,6 +324,8 @@ export default function List() {
         {name: "Blood, meal", density: 0.62},
         {name: "Bone and meat meal, loose", density: 0.72},
         {name: "Bone meal, loose", density: 0.80},
+        {name: "Broth, beef", density: 1.036},
+        {name: "Broth, chicken", density: 1.052},
         {name: "Cow intestine, boiled", density: 0.58},
         {name: "Cow, lean, no bone, raw", density: 0.96},
         {name: "Cow, intestine, raw", density: 0.93},
@@ -305,17 +338,21 @@ export default function List() {
 
         //Sweets	
 
+        {name: "Chocolate chips", density: 0.676},
         {name: "Glucolin, glucose", density: 0.4},
         {name: "Jam", density: 1.333},
         {name: "Jam, sweetened", density: 1.43},
         {name: "Jelly", density: 1.245},
+        {name: "Monk fruit sweetener", density: 0.812},
         {name: "Nutella", density: 1.26},
+        {name: "Stevia powder", density: 0.81},
         {name: "Sucrose", density: 0.85},
         {name: "Sugar, brown", density: 0.93},
         {name: "Sugar, dextrose", density: 0.62},
         {name: "Sugar, granulated", density: 0.7},
         {name: "Sugar, powdered", density: 0.56},
         {name: "Sugar, white", density: 0.88},
+        {name: "Honey", density: 1.433},
 
         //Syrup, blackcurrant, undiluted
 
@@ -324,20 +361,30 @@ export default function List() {
         {name: "Syrup, fruit, blackberry", density: 1.34},
         {name: "Syrup, maple", density: 1.32},
         {name: "Syrup, pancake", density: 1.312},
+        {name: "Vanilla extract", density: 0.879},
 
         //Miscellaneous foods	
 
         {name: "Baking powder", density: 0.9},
+        {name: "Baking soda", density: 0.974},
         {name: "Gelatin", density: 0.72},
         {name: "Monosodium glutamate", density: 1.62},
         {name: "Mustard powdered", density: 0.26},
         {name: "Protein supplement", density: 0.54},
         {name: "Salad dressing", density: 1.1},
+        {name: "Salt, kosher, regular", density: 0.812},
+        {name: "Salt, kosher, coarse", density: 0.974},
         {name: "Salt, sodium chloride", density: 2.165},
         {name: "Salt, table", density: 1.217},
         {name: "Salt, fine table", density: 1.38},
         {name: "Salt, granulated", density: 1.28},
+        {name: "Sauce, fish", density: 1.22},
+        {name: "Sauce, ketchup", density: 1.15},
+        {name: "Sauce, mustard, yellow", density: 1.052},
+        {name: "Sauce, mustard, dijon", density: 1.014},
+        {name: "Sauce, salsa", density: 1.099},
         {name: "Sauce, soy", density: 1.12},
+        {name: "Sauce, Worcestershire", density: 1.162},
         {name: "Sodium bicarbonate", density: 2.2},
         {name: "Vitamin additive", density: 0.66},
         {name: "Vitamin compound", density: 0.67},
